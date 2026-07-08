@@ -1,0 +1,778 @@
+[
+  {
+    "id": "mqwur0qq30le",
+    "createdAt": "2026-06-27T21:08:37.634Z",
+    "category": "Python Basics",
+    "difficulty": "easy",
+    "question": "What is the output of type([])?",
+    "code": null,
+    "options": [
+      "<class 'list'>",
+      "<class 'array'>",
+      "<class 'tuple'>",
+      "<class 'dict'>"
+    ],
+    "answer": 0,
+    "explanation": "Brackets [] create a list in Python."
+  },
+  {
+    "id": "mqwur0qqpqm8",
+    "createdAt": "2026-06-27T21:08:37.634Z",
+    "category": "Python Basics",
+    "difficulty": "easy",
+    "question": "Which keyword defines a function in Python?",
+    "code": null,
+    "options": [
+      "function",
+      "def",
+      "fn",
+      "define"
+    ],
+    "answer": 1,
+    "explanation": "Python uses def to declare functions."
+  },
+  {
+    "id": "mqwur0qrt523",
+    "createdAt": "2026-06-27T21:08:37.635Z",
+    "category": "Python Basics",
+    "difficulty": "hard",
+    "question": "What does this print?",
+    "code": "x = [1,2,3]\ny = x\ny.append(4)\nprint(x)",
+    "options": [
+      "[1,2,3]",
+      "[1,2,3,4]",
+      "Error",
+      "None"
+    ],
+    "answer": 1,
+    "explanation": "y = x copies the reference, not the list. Both point to the same object."
+  },
+  {
+    "id": "mqwur0qrbejc",
+    "createdAt": "2026-06-27T21:08:37.635Z",
+    "category": "Data Structures",
+    "difficulty": "medium",
+    "question": "Time complexity of index access in a Python list?",
+    "code": null,
+    "options": [
+      "O(n)",
+      "O(log n)",
+      "O(1)",
+      "O(n²)"
+    ],
+    "answer": 2,
+    "explanation": "Python lists are backed by arrays — index access is O(1)."
+  },
+  {
+    "id": "mqwur0qrd9lm",
+    "createdAt": "2026-06-27T21:08:37.635Z",
+    "category": "Data Structures",
+    "difficulty": "medium",
+    "question": "What does this print?",
+    "code": "d = {\"a\":1,\"b\":2}\nprint(list(d.keys()))",
+    "options": [
+      "['a','b']",
+      "['1','2']",
+      "dict_keys",
+      "None"
+    ],
+    "answer": 0,
+    "explanation": "list() converts dict_keys to a plain list."
+  },
+  {
+    "id": "mqwur0qrk5pi",
+    "createdAt": "2026-06-27T21:08:37.635Z",
+    "category": "Data Structures",
+    "difficulty": "hard",
+    "question": "Which structure uses LIFO ordering?",
+    "code": null,
+    "options": [
+      "Queue",
+      "Stack",
+      "Linked List",
+      "Tree"
+    ],
+    "answer": 1,
+    "explanation": "Stack = Last In First Out."
+  },
+  {
+    "id": "mqwur0qrsvds",
+    "createdAt": "2026-06-27T21:08:37.635Z",
+    "category": "Algorithms",
+    "difficulty": "easy",
+    "question": "Time complexity of binary search?",
+    "code": null,
+    "options": [
+      "O(1)",
+      "O(n)",
+      "O(log n)",
+      "O(n log n)"
+    ],
+    "answer": 2,
+    "explanation": "Binary search halves the space each step → O(log n)."
+  },
+  {
+    "id": "mqwur0qrxe8f",
+    "createdAt": "2026-06-27T21:08:37.635Z",
+    "category": "Algorithms",
+    "difficulty": "medium",
+    "question": "Which algorithm uses divide and conquer?",
+    "code": null,
+    "options": [
+      "Bubble Sort",
+      "Linear Search",
+      "Merge Sort",
+      "Selection Sort"
+    ],
+    "answer": 2,
+    "explanation": "Merge Sort splits the array recursively then merges."
+  },
+  {
+    "id": "mqwur0qrwgth",
+    "createdAt": "2026-06-27T21:08:37.635Z",
+    "category": "Algorithms",
+    "difficulty": "hard",
+    "question": "Average time complexity of quicksort?",
+    "code": null,
+    "options": [
+      "O(n)",
+      "O(n log n)",
+      "O(n²)",
+      "O(log n)"
+    ],
+    "answer": 1,
+    "explanation": "Average is O(n log n); worst case O(n²) with bad pivots."
+  },
+  {
+    "id": "mqwur0qsvhsw",
+    "createdAt": "2026-06-27T21:08:37.636Z",
+    "category": "Functions",
+    "difficulty": "easy",
+    "question": "What does *args allow?",
+    "code": null,
+    "options": [
+      "Only kwargs",
+      "Fixed args",
+      "Variable positional args",
+      "No args"
+    ],
+    "answer": 2,
+    "explanation": "*args collects extra positional arguments into a tuple."
+  },
+  {
+    "id": "mqwur0qsu4kb",
+    "createdAt": "2026-06-27T21:08:37.636Z",
+    "category": "Functions",
+    "difficulty": "medium",
+    "question": "What does this return?",
+    "code": "def f(x, y=10):\n    return x + y\nprint(f(5))",
+    "options": [
+      "5",
+      "10",
+      "15",
+      "Error"
+    ],
+    "answer": 2,
+    "explanation": "y defaults to 10, so f(5) = 5 + 10 = 15."
+  },
+  {
+    "id": "mqwur0qsvoc0",
+    "createdAt": "2026-06-27T21:08:37.636Z",
+    "category": "Functions",
+    "difficulty": "hard",
+    "question": "Output of this lambda?",
+    "code": "f = lambda x: x**2 if x%2==0 else x**3\nprint(f(3))",
+    "options": [
+      "9",
+      "27",
+      "6",
+      "3"
+    ],
+    "answer": 1,
+    "explanation": "3 is odd → x**3 = 27."
+  },
+  {
+    "id": "mr7scl5wxhjf",
+    "createdAt": "2026-07-05T12:46:52.000Z",
+    "category": "Python & Algo",
+    "difficulty": "easy",
+    "question": "Quelle structure de données Python n'autorise pas les doublons ?",
+    "code": null,
+    "options": [
+      "Liste",
+      "Tuple",
+      "Set",
+      "Dictionnaire"
+    ],
+    "answer": 2,
+    "explanation": "Un set (ensemble) ne peut contenir que des éléments uniques ; toute tentative d'ajouter un doublon est ignorée."
+  },
+  {
+    "id": "mr7scl5x0zc1",
+    "createdAt": "2026-07-05T12:46:52.000Z",
+    "category": "Python & Algo",
+    "difficulty": "easy",
+    "question": "En Python, les tuples sont mutables.",
+    "code": null,
+    "options": [
+      "Vrai",
+      "Faux"
+    ],
+    "answer": 1,
+    "explanation": "Les tuples sont immutables : impossible de modifier leurs éléments après création."
+  },
+  {
+    "id": "mr7scl5xxske",
+    "createdAt": "2026-07-05T12:46:52.000Z",
+    "category": "Python & Algo",
+    "difficulty": "easy",
+    "question": "Quel mot-clé permet de définir une fonction anonyme en une ligne ?",
+    "code": null,
+    "options": [
+      "func",
+      "lambda",
+      "def",
+      "anon"
+    ],
+    "answer": 1,
+    "explanation": "Le mot-clé lambda crée une fonction anonyme, ex: lambda x: x * 2."
+  },
+  {
+    "id": "mr7scl5xtfko",
+    "createdAt": "2026-07-05T12:46:52.000Z",
+    "category": "Python & Algo",
+    "difficulty": "easy",
+    "question": "La complexité de la recherche dichotomique (binary search) dans un tableau trié est O(log n).",
+    "code": null,
+    "options": [
+      "Vrai",
+      "Faux"
+    ],
+    "answer": 0,
+    "explanation": "À chaque étape, la recherche dichotomique divise l'espace de recherche par deux, d'où une complexité en O(log n)."
+  },
+  {
+    "id": "mr7scl5xjupl",
+    "createdAt": "2026-07-05T12:46:52.000Z",
+    "category": "Python & Algo",
+    "difficulty": "medium",
+    "question": "Que calcule cette fonction récursive ?",
+    "code": "def f(n):\n    if n <= 1:\n        return n\n    return f(n-1) + f(n-2)",
+    "options": [
+      "La factorielle de n",
+      "La suite de Fibonacci",
+      "La somme des n premiers entiers",
+      "Le PGCD de n"
+    ],
+    "answer": 1,
+    "explanation": "f(n) = f(n-1) + f(n-2) avec f(0)=0, f(1)=1 est la définition récursive classique de la suite de Fibonacci."
+  },
+  {
+    "id": "mr7scl5xa8bd",
+    "createdAt": "2026-07-05T12:46:52.000Z",
+    "category": "Python & Algo",
+    "difficulty": "medium",
+    "question": "Une pile (stack) suit le principe FIFO (First In, First Out).",
+    "code": null,
+    "options": [
+      "Vrai",
+      "Faux"
+    ],
+    "answer": 1,
+    "explanation": "Une pile suit le principe LIFO (Last In, First Out) : le dernier élément ajouté est le premier retiré. FIFO correspond à une file (queue)."
+  },
+  {
+    "id": "mr7scl5xpf5j",
+    "createdAt": "2026-07-05T12:46:52.000Z",
+    "category": "Python & Algo",
+    "difficulty": "medium",
+    "question": "Quel est le résultat affiché par ce code ?",
+    "code": "x = [1, 2, 3]\ny = x.copy()\ny.append(4)\nprint(x)",
+    "options": [
+      "[1, 2, 3]",
+      "[1, 2, 3, 4]",
+      "Erreur",
+      "None"
+    ],
+    "answer": 0,
+    "explanation": "copy() crée une copie superficielle indépendante : modifier y n'affecte pas x, qui reste [1, 2, 3]."
+  },
+  {
+    "id": "mr7scl5xs74j",
+    "createdAt": "2026-07-05T12:46:52.000Z",
+    "category": "Python & Algo",
+    "difficulty": "easy",
+    "question": "Quel opérateur permet d'obtenir le reste d'une division entière en Python ?",
+    "code": null,
+    "options": [
+      "//",
+      "%",
+      "**",
+      "/"
+    ],
+    "answer": 1,
+    "explanation": "L'opérateur % (modulo) renvoie le reste de la division entière, ex: 7 % 2 vaut 1."
+  },
+  {
+    "id": "mr7scl5xtgig",
+    "createdAt": "2026-07-05T12:46:52.000Z",
+    "category": "Python & Algo",
+    "difficulty": "medium",
+    "question": "Le tri par insertion (insertion sort) a une complexité de O(n log n) dans le pire des cas.",
+    "code": null,
+    "options": [
+      "Vrai",
+      "Faux"
+    ],
+    "answer": 1,
+    "explanation": "Le tri par insertion a une complexité de O(n²) dans le pire des cas, pas O(n log n) (réservé aux tris comme merge sort ou quicksort en moyenne)."
+  },
+  {
+    "id": "mr7scl5xfysc",
+    "createdAt": "2026-07-05T12:46:52.000Z",
+    "category": "Python & Algo",
+    "difficulty": "medium",
+    "question": "Quelle structure de données fonctionne selon le principe LIFO ?",
+    "code": null,
+    "options": [
+      "File (Queue)",
+      "Pile (Stack)",
+      "Liste chaînée",
+      "Arbre binaire"
+    ],
+    "answer": 1,
+    "explanation": "La pile (stack) retire toujours le dernier élément inséré en premier : Last In, First Out."
+  },
+  {
+    "id": "mr7t60m181eo",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Python Basics",
+    "difficulty": "easy",
+    "question": "Which of these is an immutable type in Python?",
+    "code": null,
+    "options": [
+      "List",
+      "Set",
+      "Tuple",
+      "Dictionary"
+    ],
+    "answer": 2,
+    "explanation": "Tuples cannot be modified after creation, unlike lists, sets, and dictionaries."
+  },
+  {
+    "id": "mr7t60m3u6oo",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Python Basics",
+    "difficulty": "easy",
+    "question": "In Python, indexing starts at 0.",
+    "code": null,
+    "options": [
+      "True",
+      "False"
+    ],
+    "answer": 0,
+    "explanation": "Python uses zero-based indexing: the first element of a sequence is at index 0."
+  },
+  {
+    "id": "mr7t60m4y5qc",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Python Basics",
+    "difficulty": "easy",
+    "question": "What does the len() function return for a string?",
+    "code": null,
+    "options": [
+      "The number of characters",
+      "The memory size in bytes",
+      "The ASCII sum",
+      "Nothing, it's invalid"
+    ],
+    "answer": 0,
+    "explanation": "len() returns the number of characters in a string."
+  },
+  {
+    "id": "mr7t60m5eje8",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Python Basics",
+    "difficulty": "medium",
+    "question": "What is the output of this comparison?",
+    "code": "print(3 == 3.0)",
+    "options": [
+      "True",
+      "False",
+      "Error",
+      "None"
+    ],
+    "answer": 0,
+    "explanation": "Python compares values, not types, so an int and a float with the same value are equal."
+  },
+  {
+    "id": "mr7t60m6gaoi",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Python Basics",
+    "difficulty": "medium",
+    "question": "Python is a statically typed language.",
+    "code": null,
+    "options": [
+      "True",
+      "False"
+    ],
+    "answer": 1,
+    "explanation": "Python is dynamically typed: variable types are determined at runtime, not declared in advance."
+  },
+  {
+    "id": "mr7t60m7lzis",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Python Basics",
+    "difficulty": "medium",
+    "question": "Which method converts a string to uppercase?",
+    "code": null,
+    "options": [
+      ".upper()",
+      ".toUpper()",
+      ".capitalize()",
+      ".upperCase()"
+    ],
+    "answer": 0,
+    "explanation": "The .upper() string method returns an uppercase copy of the string."
+  },
+  {
+    "id": "mr7t60m8b10k",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Python Basics",
+    "difficulty": "hard",
+    "question": "What does this print?",
+    "code": "x = None\nprint(x or 'default')",
+    "options": [
+      "None",
+      "'default'",
+      "Error",
+      "''"
+    ],
+    "answer": 1,
+    "explanation": "`or` returns the first truthy operand; since x is None (falsy), 'default' is returned."
+  },
+  {
+    "id": "mr7t60m918gp",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Data Structures",
+    "difficulty": "easy",
+    "question": "Which data structure uses FIFO (First In, First Out) ordering?",
+    "code": null,
+    "options": [
+      "Stack",
+      "Queue",
+      "Tree",
+      "Graph"
+    ],
+    "answer": 1,
+    "explanation": "A queue serves elements in the order they were added: first in, first out."
+  },
+  {
+    "id": "mr7t60ma1r7n",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Data Structures",
+    "difficulty": "easy",
+    "question": "A dictionary in Python (3.7+) preserves insertion order.",
+    "code": null,
+    "options": [
+      "True",
+      "False"
+    ],
+    "answer": 0,
+    "explanation": "Since Python 3.7, dictionaries officially guarantee insertion order is preserved."
+  },
+  {
+    "id": "mr7t60mb8nnw",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Data Structures",
+    "difficulty": "easy",
+    "question": "Which built-in type represents an ordered, mutable collection?",
+    "code": null,
+    "options": [
+      "tuple",
+      "list",
+      "set",
+      "frozenset"
+    ],
+    "answer": 1,
+    "explanation": "Lists are ordered and mutable, unlike tuples/frozensets (immutable) or sets (unordered)."
+  },
+  {
+    "id": "mr7t60mc9ww5",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Data Structures",
+    "difficulty": "medium",
+    "question": "What is printed by this code?",
+    "code": "s = set([1, 2, 2, 3])\nprint(len(s))",
+    "options": [
+      "4",
+      "3",
+      "2",
+      "Error"
+    ],
+    "answer": 1,
+    "explanation": "Sets discard duplicates, so {1,2,2,3} becomes {1,2,3}, which has length 3."
+  },
+  {
+    "id": "mr7t60menjon",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Data Structures",
+    "difficulty": "medium",
+    "question": "A linked list allows O(1) random access to any element by index.",
+    "code": null,
+    "options": [
+      "True",
+      "False"
+    ],
+    "answer": 1,
+    "explanation": "Linked lists require O(n) traversal to reach an arbitrary element; only arrays/lists give O(1) index access."
+  },
+  {
+    "id": "mr7t60mfzgw7",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Data Structures",
+    "difficulty": "medium",
+    "question": "What is the time complexity to insert an element at the beginning of a Python list?",
+    "code": null,
+    "options": [
+      "O(1)",
+      "O(log n)",
+      "O(n)",
+      "O(n²)"
+    ],
+    "answer": 2,
+    "explanation": "Inserting at index 0 requires shifting every other element, giving O(n) complexity."
+  },
+  {
+    "id": "mr7t60mgaeyf",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Data Structures",
+    "difficulty": "hard",
+    "question": "Which structure best represents a hierarchical parent-child relationship?",
+    "code": null,
+    "options": [
+      "Queue",
+      "Stack",
+      "Tree",
+      "Array"
+    ],
+    "answer": 2,
+    "explanation": "Trees naturally model hierarchies through parent-child node relationships."
+  },
+  {
+    "id": "mr7t60mh6uoo",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Algorithms",
+    "difficulty": "easy",
+    "question": "What is the time complexity of accessing an element in an array by index?",
+    "code": null,
+    "options": [
+      "O(1)",
+      "O(n)",
+      "O(log n)",
+      "O(n²)"
+    ],
+    "answer": 0,
+    "explanation": "Arrays support direct indexed access in constant time, O(1)."
+  },
+  {
+    "id": "mr7t60milren",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Algorithms",
+    "difficulty": "easy",
+    "question": "Bubble sort can run in O(n) time in the best case if optimized to detect an already-sorted array.",
+    "code": null,
+    "options": [
+      "True",
+      "False"
+    ],
+    "answer": 0,
+    "explanation": "With an early-exit flag, bubble sort finishes in one O(n) pass when the array is already sorted."
+  },
+  {
+    "id": "mr7t60mj0l4y",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Algorithms",
+    "difficulty": "easy",
+    "question": "Which sorting algorithm repeatedly swaps adjacent elements that are in the wrong order?",
+    "code": null,
+    "options": [
+      "Merge sort",
+      "Bubble sort",
+      "Quick sort",
+      "Heap sort"
+    ],
+    "answer": 1,
+    "explanation": "Bubble sort compares and swaps adjacent pairs repeatedly until the list is sorted."
+  },
+  {
+    "id": "mr7t60mk8ebv",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Algorithms",
+    "difficulty": "medium",
+    "question": "What is the worst-case time complexity of merge sort?",
+    "code": null,
+    "options": [
+      "O(n)",
+      "O(n log n)",
+      "O(n²)",
+      "O(log n)"
+    ],
+    "answer": 1,
+    "explanation": "Merge sort always divides and merges in O(n log n), even in the worst case."
+  },
+  {
+    "id": "mr7t60mlxbv9",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Algorithms",
+    "difficulty": "medium",
+    "question": "A greedy algorithm always produces the globally optimal solution for every problem.",
+    "code": null,
+    "options": [
+      "True",
+      "False"
+    ],
+    "answer": 1,
+    "explanation": "Greedy algorithms make locally optimal choices, which only yield a global optimum for specific problem types."
+  },
+  {
+    "id": "mr7t60mmqfn2",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Algorithms",
+    "difficulty": "medium",
+    "question": "Which technique does dynamic programming rely on to avoid recomputing the same subproblems?",
+    "code": null,
+    "options": [
+      "Recursion only",
+      "Memoization",
+      "Random sampling",
+      "Backtracking only"
+    ],
+    "answer": 1,
+    "explanation": "Dynamic programming stores (memoizes) results of subproblems to avoid redundant computation."
+  },
+  {
+    "id": "mr7t60mnu7yr",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Algorithms",
+    "difficulty": "hard",
+    "question": "What is the extra space complexity of an in-place quicksort (excluding the recursion call stack)?",
+    "code": null,
+    "options": [
+      "O(1)",
+      "O(n)",
+      "O(log n)",
+      "O(n²)"
+    ],
+    "answer": 0,
+    "explanation": "In-place quicksort partitions the array using only a constant number of extra variables."
+  },
+  {
+    "id": "mr7t60mp9gjk",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Functions",
+    "difficulty": "easy",
+    "question": "What does **kwargs allow a function to accept?",
+    "code": null,
+    "options": [
+      "Extra positional arguments",
+      "Extra keyword arguments",
+      "No arguments",
+      "Only one argument"
+    ],
+    "answer": 1,
+    "explanation": "**kwargs collects any extra keyword arguments into a dictionary."
+  },
+  {
+    "id": "mr7t60mqtly0",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Functions",
+    "difficulty": "easy",
+    "question": "In Python, functions are first-class objects and can be passed as arguments.",
+    "code": null,
+    "options": [
+      "True",
+      "False"
+    ],
+    "answer": 0,
+    "explanation": "Functions can be assigned to variables, passed as arguments, and returned from other functions."
+  },
+  {
+    "id": "mr7t60mr25qt",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Functions",
+    "difficulty": "easy",
+    "question": "Which keyword is used to exit a function and send back a value?",
+    "code": null,
+    "options": [
+      "exit",
+      "break",
+      "return",
+      "stop"
+    ],
+    "answer": 2,
+    "explanation": "The return statement ends a function's execution and optionally returns a value."
+  },
+  {
+    "id": "mr7t60ms9zj7",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Functions",
+    "difficulty": "medium",
+    "question": "What is printed by this code?",
+    "code": "def f(a, b=5):\n    return a + b\nprint(f(3))",
+    "options": [
+      "8",
+      "3",
+      "Error",
+      "None"
+    ],
+    "answer": 0,
+    "explanation": "b defaults to 5 since no second argument is passed, so f(3) returns 3 + 5 = 8."
+  },
+  {
+    "id": "mr7t60mtcu4q",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Functions",
+    "difficulty": "medium",
+    "question": "Default argument values in Python are evaluated only once, at function definition time.",
+    "code": null,
+    "options": [
+      "True",
+      "False"
+    ],
+    "answer": 0,
+    "explanation": "Default values are evaluated once when the function is defined — a common gotcha with mutable defaults like lists."
+  },
+  {
+    "id": "mr7t60mukkmo",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Functions",
+    "difficulty": "medium",
+    "question": "What does a closure allow a nested function to do?",
+    "code": null,
+    "options": [
+      "Access the enclosing function's variables after it has returned",
+      "Run faster than normal functions",
+      "Avoid using recursion",
+      "Skip the return statement"
+    ],
+    "answer": 0,
+    "explanation": "A closure lets an inner function remember and access variables from its enclosing scope even after that scope has finished executing."
+  },
+  {
+    "id": "mr7t60mvekcj",
+    "createdAt": "2026-07-05T13:09:46.000Z",
+    "category": "Functions",
+    "difficulty": "hard",
+    "question": "What does this print?",
+    "code": "def f():\n    x = 10\n    def g():\n        nonlocal x\n        x += 1\n        return x\n    return g()\nprint(f())",
+    "options": [
+      "10",
+      "11",
+      "Error",
+      "None"
+    ],
+    "answer": 1,
+    "explanation": "nonlocal lets g() modify f()'s local variable x; it increments from 10 to 11 and returns that."
+  }
+]
