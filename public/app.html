@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CodeArena</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════ */
+:root{
+  --bg:#0b0e18;--bg2:#101422;--bg3:#161b2e;--bg4:#1c2238;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.04);
+  --text:#e8ecf6;--text2:#7b849e;--text3:#3d4460;
+  --accent:#5b7cfd;--accent-h:#4a6be8;--accent-s:rgba(91,124,253,0.12);
+  --green:#22c55e;--green-s:rgba(34,197,94,0.10);
+  --red:#ef4444;--red-s:rgba(239,68,68,0.10);
+  --orange:#f59e0b;--orange-s:rgba(245,158,11,0.10);
+  --sidebar-w:220px;
+  --r:10px;--r-lg:14px;
+}
+[data-theme="light"]{
+  --bg:#f0f2fa;--bg2:#ffffff;--bg3:#e8ecf6;--bg4:#dde3f0;
+  --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.04);
+  --text:#111827;--text2:#4b5563;--text3:#9ca3af;
+  --bg-code:#1e2233;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);transition:background .25s,color .25s}
+
+/* ═══════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════ */
+#app{display:flex;height:100vh;overflow:hidden}
+
+/* ── Sidebar ── */
+#sidebar{
+  width:var(--sidebar-w);flex-shrink:0;
+  background:var(--bg2);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  transition:transform .3s,background .25s;
+  z-index:50;
+}
+.sb-brand{display:flex;align-items:center;gap:10px;padding:20px 18px 16px;border-bottom:1px solid var(--border)}
+.sb-brand-icon{font-size:1.3rem}
+.sb-brand-name{font-size:1.05rem;font-weight:800;letter-spacing:-.3px}
+.sb-brand-name span{color:var(--accent)}
+
+.sb-nav{flex:1;padding:12px 8px;display:flex;flex-direction:column;gap:2px;overflow-y:auto}
+.sb-item{
+  display:flex;align-items:center;gap:11px;
+  padding:10px 12px;border-radius:9px;
+  font-size:.875rem;font-weight:500;color:var(--text2);
+  cursor:pointer;border:none;background:transparent;
+  text-align:left;width:100%;font-family:'Inter',sans-serif;
+  transition:all .15s;
+}
+.sb-item:hover{background:var(--bg3);color:var(--text)}
+.sb-item.active{background:var(--accent-s);color:var(--accent);font-weight:600}
+.sb-icon{font-size:1rem;width:20px;text-align:center;flex-shrink:0}
+.sb-sep{height:1px;background:var(--border);margin:8px 8px}
+
+.sb-bottom{padding:12px 8px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:2px}
+
+/* User chip in sidebar */
+.sb-user{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;border-radius:9px;
+  margin-bottom:4px;background:var(--bg3);
+}
+.sb-avatar{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--accent);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.8rem;font-weight:700;flex-shrink:0;
+}
+.sb-uname{font-size:.82rem;font-weight:600;line-height:1.2}
+.sb-urole{font-size:.72rem;color:var(--text2)}
+
+/* ── Main area ── */
+#main{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+
+/* Topbar (mobile + dark mode) */
+#topbar{
+  display:none;
+  align-items:center;justify-content:space-between;
+  padding:0 16px;height:54px;
+  background:var(--bg2);border-bottom:1px solid var(--border);
+  flex-shrink:0;
+}
+#burger{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;gap:5px;padding:4px}
+#burger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:.3s}
+
+.icon-btn{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:9px;width:36px;height:36px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:1rem;transition:background .2s;
+}
+.icon-btn:hover{background:var(--bg4)}
+
+#overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:49;display:none}
+
+/* ═══════════════════════════════════════════
+   PAGES
+═══════════════════════════════════════════ */
+.page{display:none;flex:1;padding:28px 28px 40px}
+.page.active{display:block}
+.page-title{font-size:1.5rem;font-weight:800;letter-spacing:-.4px;margin-bottom:4px}
+.page-sub{font-size:.85rem;color:var(--text2);margin-bottom:28px}
+
+/* ═══ HOME PAGE ═══ */
+.home-hero{
+  background:linear-gradient(135deg,var(--bg3) 0%,var(--bg2) 100%);
+  border:1px solid var(--border);border-radius:var(--r-lg);
+  padding:36px;margin-bottom:28px;position:relative;overflow:hidden;
+}
+.home-hero::before{
+  content:'';position:absolute;right:-40px;top:-40px;
+  width:220px;height:220px;
+  background:radial-gradient(circle,var(--accent-s) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-badge{display:inline-block;background:var(--accent-s);color:var(--accent);font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:12px;letter-spacing:.5px;text-transform:uppercase}
+.hero-title{font-size:clamp(1.4rem,3vw,2rem);font-weight:800;letter-spacing:-.5px;margin-bottom:8px;line-height:1.2}
+.hero-title span{color:var(--accent)}
+.hero-sub{font-size:.9rem;color:var(--text2);margin-bottom:20px;max-width:480px}
+.hero-stats{display:flex;gap:28px;flex-wrap:wrap}
+.hstat{display:flex;flex-direction:column;gap:2px}
+.hstat-n{font-size:1.4rem;font-weight:800}
+.hstat-l{font-size:.72rem;color:var(--text2);font-weight:500}
+
+/* Quiz launcher */
+.launcher{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:28px}
+.section-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text2);margin-bottom:12px}
+
+.mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+.mode-card{
+  border:2px solid var(--border);border-radius:var(--r);padding:16px;
+  cursor:pointer;transition:all .18s;position:relative;
+}
+.mode-card:hover{border-color:var(--accent);background:var(--accent-s)}
+.mode-card.selected{border-color:var(--accent);background:var(--accent-s)}
+.mode-card[data-mode="challenge"].selected{border-color:var(--orange);background:var(--orange-s)}
+.mode-card[data-mode="challenge"]:hover{border-color:var(--orange);background:var(--orange-s)}
+.mc-icon{font-size:1.4rem;margin-bottom:6px}
+.mc-name{font-size:.9rem;font-weight:700;margin-bottom:3px}
+.mc-desc{font-size:.75rem;color:var(--text2)}
+
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:24px}
+.chip{
+  padding:5px 13px;border-radius:20px;font-size:.78rem;font-weight:500;
+  border:1.5px solid var(--border);background:var(--bg3);color:var(--text2);
+  cursor:pointer;transition:all .15s;
+}
+.chip:hover,.chip.selected{background:var(--accent-s);border-color:var(--accent);color:var(--accent)}
+.chip.selected-easy{background:var(--green-s);border-color:var(--green);color:var(--green)}
+.chip.selected-medium{background:var(--orange-s);border-color:var(--orange);color:var(--orange)}
+.chip.selected-hard{background:var(--red-s);border-color:var(--red);color:var(--red)}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:10px 20px;border-radius:9px;font-size:.875rem;font-weight:600;
+  cursor:pointer;border:1.5px solid transparent;font-family:'Inter',sans-serif;
+  transition:all .18s;text-decoration:none;white-space:nowrap;
+}
+.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn-primary:hover{background:var(--accent-h)}
+.btn-outline{background:transparent;color:var(--text);border-color:var(--border)}
+.btn-outline:hover{background:var(--bg3)}
+.btn-ghost{background:transparent;color:var(--text2);border-color:transparent}
+.btn-ghost:hover{color:var(--text);background:var(--bg3)}
+.btn-danger{background:var(--red-s);color:var(--red);border-color:var(--red)}
+.btn-danger:hover{background:var(--red);color:#fff}
+.btn-sm{padding:6px 12px;font-size:.78rem}
+.btn-lg{padding:13px 28px;font-size:.95rem}
+.btn-full{width:100%}
+
+/* ═══ QUIZ PAGE ═══ */
+.quiz-wrap{max-width:700px;margin:0 auto}
+.progress-bar{height:4px;background:var(--bg3);border-radius:2px;margin-bottom:24px;overflow:hidden}
+.progress-fill{height:100%;background:var(--accent);border-radius:2px;transition:width .4s ease}
+.quiz-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.qtb-l{display:flex;align-items:center;gap:10px}
+.qtb-r{display:flex;align-items:center;gap:10px}
+.badge{font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px}
+.badge-normal{background:var(--accent-s);color:var(--accent)}
+.badge-challenge{background:var(--orange-s);color:var(--orange)}
+.qcount{font-size:.82rem;color:var(--text2);font-weight:500}
+.lives{display:flex;gap:3px}
+.life{font-size:1rem;transition:opacity .2s}
+.life.off{opacity:.2}
+.streak{font-size:.75rem;font-weight:700;background:var(--orange-s);color:var(--orange);padding:3px 9px;border-radius:20px}
+
+/* Timer */
+.timer{position:relative;width:44px;height:44px}
+.timer svg{width:44px;height:44px;transform:rotate(-90deg)}
+.t-track{fill:none;stroke:var(--bg3);stroke-width:3}
+.t-arc{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;transition:stroke-dashoffset 1s linear,stroke .3s}
+.timer.urgent .t-arc{stroke:var(--red)}
+.timer-n{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700}
+.timer.urgent .timer-n{color:var(--red)}
+
+/* Question card */
+.qcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:28px}
+.qcard-meta{display:flex;gap:8px;margin-bottom:18px}
+.diff{font-size:.7rem;font-weight:700;padding:3px 9px;border-radius:20px;text-transform:capitalize}
+.diff-easy{background:var(--green-s);color:var(--green)}
+.diff-medium{background:var(--orange-s);color:var(--orange)}
+.diff-hard{background:var(--red-s);color:var(--red)}
+.cat-tag{font-size:.7rem;font-weight:500;padding:3px 9px;border-radius:20px;background:var(--bg3);color:var(--text2)}
+.q-text{font-size:1.05rem;font-weight:600;line-height:1.55;margin-bottom:18px;letter-spacing:-.15px}
+.code-block{font-family:'JetBrains Mono',monospace;font-size:.83rem;background:#0d1117;border:1px solid var(--border);border-radius:9px;padding:16px 18px;margin-bottom:18px;overflow-x:auto;color:#c9d1d9;line-height:1.7}
+.options{display:grid;gap:9px;margin-bottom:18px}
+.opt{
+  display:flex;align-items:center;gap:12px;
+  padding:13px 16px;border-radius:10px;border:1.5px solid var(--border);
+  background:var(--bg3);color:var(--text);font-size:.875rem;font-weight:500;
+  cursor:pointer;transition:all .15s;text-align:left;width:100%;
+  font-family:'Inter',sans-serif;position:relative;
+}
+.opt:not(.answered):hover{border-color:var(--accent);background:var(--accent-s)}
+.opt.correct{border-color:var(--green);background:var(--green-s)}
+.opt.wrong{border-color:var(--red);background:var(--red-s)}
+.opt.dimmed{opacity:.4}
+.opt-letter{
+  width:26px;height:26px;border-radius:7px;background:var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.72rem;font-weight:700;flex-shrink:0;
+}
+.opt-mark{margin-left:auto;font-weight:700}
+
+.feedback{
+  display:flex;gap:12px;align-items:flex-start;
+  padding:14px 16px;border-radius:10px;border:1px solid;margin-bottom:18px;
+}
+.fb-correct{background:var(--green-s);border-color:var(--green)}
+.fb-wrong{background:var(--red-s);border-color:var(--red)}
+.fb-icon{font-size:1.1rem;flex-shrink:0}
+.fb-result{font-weight:700;font-size:.9rem;margin-bottom:3px}
+.fb-exp{font-size:.82rem;color:var(--text2);line-height:1.5}
+
+/* Game over overlay */
+.gameover{
+  text-align:center;padding:48px 24px;
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);
+}
+.go-icon{font-size:3rem;margin-bottom:12px}
+.go-title{font-size:1.4rem;font-weight:800;margin-bottom:8px}
+.go-sub{color:var(--text2);margin-bottom:24px}
+.go-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+/* ═══ RESULTS PAGE ═══ */
+.results-hero{
+  display:grid;grid-template-columns:1fr 1.3fr;gap:24px;
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);
+  overflow:hidden;margin-bottom:24px;
+}
+.rh-left{
+  background:linear-gradient(140deg,#0e1221 0%,#0b0e18 100%);
+  padding:32px 28px;display:flex;flex-direction:column;gap:14px;
+  color:#e8ecf6;
+}
+.big-score{font-size:3.5rem;font-weight:800;letter-spacing:-2px;line-height:1;color:#e8ecf6}
+.big-score small{font-size:1.6rem;color:rgba(232,236,246,.55)}
+.score-badge{font-size:.85rem;font-weight:700;padding:5px 14px;border-radius:20px;display:inline-block}
+.badge-gold{background:rgba(245,158,11,.2);color:#f5b342}
+.badge-silver{background:rgba(148,163,184,.2);color:#cbd5e1}
+.badge-bronze{background:rgba(251,146,60,.2);color:#fb923c}
+.badge-miss{background:rgba(255,255,255,.08);color:rgba(232,236,246,.6)}
+.ch-result{font-size:.85rem;font-weight:700;padding:5px 12px;border-radius:8px;display:inline-block}
+.ch-win{background:rgba(34,197,94,.15);color:#4ade80}
+.ch-fail{background:rgba(239,68,68,.15);color:#f87171}
+.rh-actions{display:flex;gap:8px;flex-wrap:wrap}
+.rh-left .btn-outline{color:#e8ecf6;border-color:rgba(255,255,255,.22)}
+.rh-left .btn-outline:hover{background:rgba(255,255,255,.08)}
+.rh-right{padding:28px}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat-card{background:var(--bg3);border-radius:var(--r);padding:14px;text-align:center}
+.stat-v{font-size:1.4rem;font-weight:800;margin-bottom:2px}
+.stat-l{font-size:.72rem;color:var(--text2);font-weight:500}
+.sv-green{color:var(--green)}.sv-red{color:var(--red)}.sv-orange{color:var(--orange)}
+
+.review-list{display:flex;flex-direction:column;gap:8px}
+.ri{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;border-left:4px solid var(--border)}
+.ri.ri-ok{border-left-color:var(--green)}
+.ri.ri-bad{border-left-color:var(--red)}
+.ri-head{display:flex;align-items:flex-start;gap:10px;padding:12px 14px}
+.ri-num{width:22px;height:22px;border-radius:6px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0}
+.ri-q{flex:1;font-size:.85rem}
+.ri-mark{margin-left:auto;font-weight:700}
+.ri-ok .ri-mark{color:var(--green)}.ri-bad .ri-mark{color:var(--red)}
+.ri-detail{padding:10px 14px;border-top:1px solid var(--border);font-size:.8rem;color:var(--text2);background:var(--bg3);line-height:1.5}
+
+/* ═══ ADMIN DASHBOARD PAGE ═══ */
+.cards-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;margin-bottom:28px}
+.dash-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:18px;text-align:center}
+.dc-icon{font-size:1.4rem;margin-bottom:8px}
+.dc-val{font-size:1.7rem;font-weight:800;margin-bottom:2px}
+.dc-lbl{font-size:.72rem;color:var(--text2);font-weight:500}
+
+/* ═══ MEMBER "MY DASHBOARD" PAGE ═══ */
+:root{
+  --md-grad1:#7c5cff;--md-grad2:#5b7cfd;--md-grad3:#22d3ee;
+  --md-gold:#f5b342;
+}
+.md-hero{
+  display:grid;grid-template-columns:auto 1fr;gap:32px;align-items:center;
+  background:linear-gradient(120deg,#1c1440 0%,#101422 60%);
+  border:1px solid var(--border);border-radius:var(--r-lg);
+  padding:32px;margin-bottom:24px;position:relative;overflow:hidden;
+}
+[data-theme="light"] .md-hero{background:linear-gradient(120deg,#eae5ff 0%,#f0f2fa 60%)}
+.md-hero::after{
+  content:'';position:absolute;left:-60px;bottom:-80px;width:260px;height:260px;
+  background:radial-gradient(circle,rgba(124,92,255,.20) 0%,transparent 70%);pointer-events:none;
+}
+.md-ring{position:relative;width:132px;height:132px;flex-shrink:0}
+.md-ring svg{width:132px;height:132px;transform:rotate(-90deg)}
+.md-ring-track{fill:none;stroke:var(--border);stroke-width:10}
+.md-ring-arc{fill:none;stroke:url(#mdGrad);stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset .8s ease}
+.md-ring-mid{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.md-ring-val{font-size:1.7rem;font-weight:800;letter-spacing:-1px}
+.md-ring-lbl{font-size:.66rem;color:var(--text2);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.md-hero-name{font-size:1.3rem;font-weight:800;margin-bottom:4px;letter-spacing:-.3px}
+.md-hero-sub{font-size:.85rem;color:var(--text2);margin-bottom:18px}
+.md-stat-row{display:flex;gap:26px;flex-wrap:wrap}
+.md-stat{display:flex;flex-direction:column;gap:2px}
+.md-stat-n{font-size:1.3rem;font-weight:800;background:linear-gradient(120deg,var(--md-grad1),var(--md-grad3));-webkit-background-clip:text;background-clip:text;color:transparent}
+.md-stat-l{font-size:.7rem;color:var(--text2);font-weight:600}
+
+.md-layout{display:grid;grid-template-columns:1.4fr 1fr;gap:20px;align-items:start}
+@media(max-width:900px){.md-layout{grid-template-columns:1fr}.md-hero{grid-template-columns:1fr;text-align:center}.md-hero-sub,.md-stat-row{justify-content:center;display:flex}}
+
+.md-panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);padding:22px;margin-bottom:20px}
+.md-panel-title{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text2);margin-bottom:16px;display:flex;align-items:center;gap:8px}
+
+.badge-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px}
+.badge-tile{
+  border:1.5px solid var(--border);border-radius:var(--r);padding:16px 10px;text-align:center;
+  transition:transform .15s;opacity:.35;filter:grayscale(1);
+}
+.badge-tile.unlocked{opacity:1;filter:none;border-color:var(--md-gold);background:linear-gradient(160deg,rgba(245,179,66,.10),transparent)}
+.badge-tile:hover{transform:translateY(-2px)}
+.bt-icon{font-size:1.8rem;margin-bottom:6px}
+.bt-name{font-size:.78rem;font-weight:700;margin-bottom:2px}
+.bt-desc{font-size:.68rem;color:var(--text2);line-height:1.3}
+
+.cat-bar-row{display:flex;flex-direction:column;gap:12px}
+.cbr{display:flex;align-items:center;gap:10px}
+.cbr-name{font-size:.8rem;font-weight:600;width:120px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cbr-track{flex:1;height:8px;background:var(--bg3);border-radius:4px;overflow:hidden}
+.cbr-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--md-grad1),var(--md-grad3))}
+.cbr-val{font-size:.75rem;font-weight:700;color:var(--text2);width:60px;text-align:right;flex-shrink:0}
+
+.timeline{display:flex;flex-direction:column;gap:2px}
+.tl-item{display:flex;align-items:center;gap:12px;padding:11px 4px;border-bottom:1px solid var(--border2)}
+.tl-item:last-child{border-bottom:none}
+.tl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.tl-dot.tl-good{background:var(--green)}
+.tl-dot.tl-mid{background:var(--orange)}
+.tl-dot.tl-bad{background:var(--red)}
+.tl-body{flex:1;min-width:0}
+.tl-title{font-size:.82rem;font-weight:600}
+.tl-sub{font-size:.7rem;color:var(--text2)}
+.tl-score{font-size:.95rem;font-weight:800}
+
+.lb-list{display:flex;flex-direction:column;gap:8px}
+.lb-row{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:9px;background:var(--bg3)}
+.lb-row.lb-me{border:1.5px solid var(--md-grad2);background:var(--accent-s)}
+.lb-rank{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;background:var(--bg4);flex-shrink:0}
+.lb-rank.lb-1{background:linear-gradient(135deg,#f5b342,#f59e0b);color:#1a1200}
+.lb-rank.lb-2{background:linear-gradient(135deg,#cbd5e1,#94a3b8);color:#1a1a1a}
+.lb-rank.lb-3{background:linear-gradient(135deg,#d97757,#b45309);color:#1a0f00}
+.lb-name{flex:1;font-size:.82rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lb-score{font-size:.85rem;font-weight:800}
+.empty-hint{font-size:.8rem;color:var(--text2);text-align:center;padding:20px 0}
+
+/* ═══ QUESTIONS TABLE ═══ */
+.filter-bar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px;align-items:center}
+.fi{
+  padding:8px 12px;background:var(--bg2);border:1.5px solid var(--border);
+  border-radius:8px;font-size:.83rem;color:var(--text);font-family:'Inter',sans-serif;
+  outline:none;
+}
+.fi:focus{border-color:var(--accent)}
+.fi::placeholder{color:var(--text3)}
+.fi-select{appearance:none;cursor:pointer;background:var(--bg2)}
+.fi-select option{background:var(--bg2)}
+.tbl-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.84rem}
+thead{background:var(--bg3)}
+th{padding:11px 14px;text-align:left;font-size:.72rem;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border)}
+td{padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tbody tr:hover td{background:var(--bg3)}
+.td-empty{text-align:center;padding:32px !important;color:var(--text3)}
+.td-actions{display:flex;gap:6px}
+.has-code{font-family:'JetBrains Mono',monospace;font-size:.68rem;background:var(--bg3);color:var(--text2);padding:1px 5px;border-radius:4px;margin-left:5px}
+
+/* ═══ SETTINGS PAGE ═══ */
+.settings-block{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:22px;margin-bottom:16px;max-width:500px}
+.sblock-title{font-size:.9rem;font-weight:700;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--border);color:var(--text2)}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:.78rem;font-weight:600;color:var(--text2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.form-input{
+  padding:9px 12px;background:var(--bg3);border:1.5px solid var(--border);
+  border-radius:8px;color:var(--text);font-size:.875rem;font-family:'Inter',sans-serif;
+  outline:none;width:100%;transition:border-color .2s;
+}
+.form-input:focus{border-color:var(--accent)}
+.form-input-sm{max-width:130px}
+.form-textarea{resize:vertical;min-height:72px;font-family:'Inter',sans-serif}
+.form-code{font-family:'JetBrains Mono',monospace;font-size:.82rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0}
+.toggle-lbl{font-size:.875rem;font-weight:500}
+.toggle{display:flex;align-items:center;cursor:pointer;gap:8px}
+.toggle input{display:none}
+.tgl{width:44px;height:24px;background:var(--bg3);border:1.5px solid var(--border);border-radius:12px;position:relative;transition:background .2s}
+.tgl::after{content:'';position:absolute;left:3px;top:3px;width:16px;height:16px;background:var(--text2);border-radius:50%;transition:transform .2s,background .2s}
+.toggle input:checked + .tgl{background:var(--accent);border-color:var(--accent)}
+.toggle input:checked + .tgl::after{transform:translateX(20px);background:#fff}
+.alert{padding:10px 14px;border-radius:8px;font-size:.84rem;font-weight:500;margin-bottom:14px;display:none}
+.alert.show{display:block}
+.alert-error{background:var(--red-s);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+.alert-success{background:var(--green-s);color:var(--green);border:1px solid rgba(34,197,94,.2)}
+
+/* ═══ MODAL ═══ */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-bg.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r-lg);width:100%;max-width:580px;max-height:90vh;overflow-y:auto;box-shadow:0 24px 80px rgba(0,0,0,.5)}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--border)}
+.modal-head h3{font-size:1rem;font-weight:700}
+.modal-close{background:none;border:none;color:var(--text2);cursor:pointer;font-size:1.1rem}
+.modal-body{padding:22px;display:flex;flex-direction:column;gap:14px}
+.modal-foot{display:flex;justify-content:flex-end;gap:8px;padding:14px 22px;border-top:1px solid var(--border)}
+.opts-edit{display:flex;flex-direction:column;gap:8px}
+.oe-row{display:flex;align-items:center;gap:8px}
+.oe-radio{width:17px;height:17px;accent-color:var(--accent);flex-shrink:0}
+.oe-lbl{font-size:.78rem;font-weight:700;color:var(--text2);width:16px;flex-shrink:0}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:800px){
+  #sidebar{position:fixed;top:0;left:0;height:100vh;transform:translateX(-100%)}
+  #sidebar.open{transform:translateX(0)}
+  #topbar{display:flex}
+  #overlay.open{display:block}
+  .mode-grid{grid-template-columns:1fr}
+  .results-hero{grid-template-columns:1fr}
+  .page{padding:18px 16px 32px}
+}
+@media(max-width:520px){
+  .stat-grid{grid-template-columns:1fr 1fr}
+  .form-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ══════════ SIDEBAR ══════════ -->
+  <aside id="sidebar">
+    <div class="sb-brand">
+      <div class="sb-brand-icon">⚡</div>
+      <div class="sb-brand-name">Code<span>Arena</span></div>
+    </div>
+
+    <nav class="sb-nav" id="sbNav">
+      <button class="sb-item active" data-page="home" onclick="nav('home')">
+        <span class="sb-icon">🏠</span> Home
+      </button>
+      <button class="sb-item" data-page="mydash" onclick="nav('mydash')">
+        <span class="sb-icon">📈</span> My Dashboard
+      </button>
+      <!-- admin items injected here -->
+    </nav>
+
+    <div class="sb-sep"></div>
+
+    <div class="sb-bottom">
+      <div class="sb-user" id="sbUser">
+        <div class="sb-avatar" id="sbAvatar">A</div>
+        <div>
+          <div class="sb-uname" id="sbName">User</div>
+          <div class="sb-urole" id="sbRole">Member</div>
+        </div>
+      </div>
+
+      <!-- Dark/light toggle -->
+      <button class="sb-item" id="themeBtn" onclick="toggleTheme()">
+        <span class="sb-icon" id="themeIcon">🌙</span>
+        <span id="themeLabel">Light Mode</span>
+      </button>
+
+      <button class="sb-item" onclick="doLogout()" style="color:var(--red)">
+        <span class="sb-icon">🚪</span> Logout
+      </button>
+    </div>
+  </aside>
+
+  <!-- ══════════ TOPBAR (mobile) ══════════ -->
+  <div id="mainArea" style="flex:1;display:flex;flex-direction:column;overflow:hidden">
+    <div id="topbar">
+      <button id="burger" onclick="toggleSidebar()">
+        <span></span><span></span><span></span>
+      </button>
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:1rem">⚡</span>
+        <strong style="font-size:.95rem;letter-spacing:-.2px">Code<span style="color:var(--accent)">Arena</span></strong>
+      </div>
+      <button class="icon-btn" onclick="toggleTheme()"><span id="topThemeIcon">🌙</span></button>
+    </div>
+
+    <!-- ══════════ PAGES ══════════ -->
+    <div id="main">
+
+      <!-- HOME -->
+      <div class="page active" id="page-home">
+        <div class="home-hero">
+          <div class="hero-badge">Python & Algorithms</div>
+          <h1 class="hero-title">Train. Compete.<br><span>Master Code.</span></h1>
+          <p class="hero-sub">Sharpen your skills with timed quizzes, challenge mode, and instant feedback.</p>
+          <div class="hero-stats">
+            <div class="hstat"><div class="hstat-n" id="heroQCount">—</div><div class="hstat-l">Questions</div></div>
+            <div class="hstat"><div class="hstat-n" id="heroCatCount">—</div><div class="hstat-l">Categories</div></div>
+            <div class="hstat"><div class="hstat-n">2</div><div class="hstat-l">Modes</div></div>
+          </div>
+        </div>
+
+        <div class="launcher">
+          <div class="section-title" style="margin-bottom:6px">Quiz Mode</div>
+          <div class="mode-grid" style="margin-bottom:20px">
+            <div class="mode-card selected" data-mode="normal" onclick="selectMode(this)">
+              <div class="mc-icon">📚</div>
+              <div class="mc-name">Normal</div>
+              <div class="mc-desc">Practice with feedback & explanations</div>
+            </div>
+            <div class="mode-card" data-mode="challenge" onclick="selectMode(this)">
+              <div class="mc-icon">🔥</div>
+              <div class="mc-name">Challenge</div>
+              <div class="mc-desc">3 lives · faster timer · streak tracking</div>
+            </div>
+          </div>
+
+          <div class="section-title">Difficulty</div>
+          <div class="chips" id="diffChips">
+            <div class="chip selected" data-diff="all">All</div>
+            <div class="chip" data-diff="easy">Easy</div>
+            <div class="chip" data-diff="medium">Medium</div>
+            <div class="chip" data-diff="hard">Hard</div>
+          </div>
+
+          <div class="section-title">Category</div>
+          <div class="chips" id="catChips">
+            <div class="chip selected" data-cat="all">All</div>
+          </div>
+
+          <button class="btn btn-primary btn-full btn-lg" style="margin-top:20px" onclick="startQuiz()">
+            Start Quiz →
+          </button>
+        </div>
+      </div>
+
+      <!-- QUIZ -->
+      <div class="page" id="page-quiz">
+        <div class="quiz-wrap">
+          <div class="progress-bar"><div class="progress-fill" id="qProgress" style="width:0%"></div></div>
+          <div class="quiz-topbar">
+            <div class="qtb-l">
+              <span class="badge" id="modeBadge">📚 Normal</span>
+              <span class="qcount" id="qCountLabel">Q 1 / 10</span>
+            </div>
+            <div class="qtb-r">
+              <div class="lives" id="livesRow" style="display:none"></div>
+              <div class="streak" id="streakBadge" style="display:none">🔥 0</div>
+              <div class="timer" id="timerEl">
+                <svg viewBox="0 0 40 40">
+                  <circle cx="20" cy="20" r="16" class="t-track"/>
+                  <circle cx="20" cy="20" r="16" class="t-arc" id="tArc" stroke-dasharray="100.5" stroke-dashoffset="0"/>
+                </svg>
+                <span class="timer-n" id="timerNum">30</span>
+              </div>
+            </div>
+          </div>
+          <div id="quizContent"></div>
+        </div>
+      </div>
+
+      <!-- RESULTS -->
+      <div class="page" id="page-results">
+        <div id="resultsContent"></div>
+      </div>
+
+      <!-- MY DASHBOARD (member) -->
+      <div class="page" id="page-mydash">
+        <svg width="0" height="0" style="position:absolute">
+          <defs>
+            <linearGradient id="mdGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#7c5cff"/>
+              <stop offset="100%" stop-color="#22d3ee"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="md-hero">
+          <div class="md-ring">
+            <svg viewBox="0 0 132 132">
+              <circle cx="66" cy="66" r="56" class="md-ring-track"/>
+              <circle cx="66" cy="66" r="56" class="md-ring-arc" id="mdRingArc" stroke-dasharray="352" stroke-dashoffset="352"/>
+            </svg>
+            <div class="md-ring-mid">
+              <div class="md-ring-val" id="mdAvgScore">—</div>
+              <div class="md-ring-lbl">Avg. Score</div>
+            </div>
+          </div>
+          <div>
+            <div class="md-hero-name" id="mdHeroName">Mon Tableau de Bord</div>
+            <div class="md-hero-sub">Ta progression, tes badges et ton historique de quiz, en un coup d'œil.</div>
+            <div class="md-stat-row">
+              <div class="md-stat"><div class="md-stat-n" id="mdTotalQuizzes">—</div><div class="md-stat-l">Quiz joués</div></div>
+              <div class="md-stat"><div class="md-stat-n" id="mdBestScore">—</div><div class="md-stat-l">Meilleur score</div></div>
+              <div class="md-stat"><div class="md-stat-n" id="mdBestStreak">—</div><div class="md-stat-l">Meilleur streak 🔥</div></div>
+              <div class="md-stat"><div class="md-stat-n" id="mdBadgeCount">—</div><div class="md-stat-l">Badges débloqués</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="md-layout">
+          <div>
+            <div class="md-panel">
+              <div class="md-panel-title">🏅 Badges</div>
+              <div class="badge-grid" id="mdBadges"></div>
+            </div>
+            <div class="md-panel">
+              <div class="md-panel-title">📚 Performance par catégorie</div>
+              <div class="cat-bar-row" id="mdCatBars"></div>
+            </div>
+            <div class="md-panel">
+              <div class="md-panel-title">🕓 Historique récent</div>
+              <div class="timeline" id="mdTimeline"></div>
+            </div>
+          </div>
+          <div>
+            <div class="md-panel">
+              <div class="md-panel-title">🏆 Classement de session <small style="text-transform:none;font-weight:400;color:var(--text3)">(top 10)</small></div>
+              <div class="lb-list" id="mdLeaderboard"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADMIN DASHBOARD -->
+      <div class="page" id="page-admin">
+        <div class="page-title">Dashboard</div>
+        <div class="page-sub">Overview of CodeArena activity</div>
+        <div class="cards-row" id="adminCards"></div>
+        <div class="section-title" style="margin-bottom:12px">Questions by Category</div>
+        <div class="tbl-wrap"><table><thead><tr><th>Category</th><th>Total</th><th>Easy</th><th>Medium</th><th>Hard</th></tr></thead><tbody id="catTable"></tbody></table></div>
+      </div>
+
+      <!-- QUESTIONS -->
+      <div class="page" id="page-questions">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:20px">
+          <div><div class="page-title">Questions</div><div class="page-sub" id="qLibCount" style="margin:0"></div></div>
+          <button class="btn btn-primary" onclick="openQModal()">+ Add Question</button>
+        </div>
+        <div class="filter-bar">
+          <input class="fi" id="qSearch" placeholder="Search…" oninput="filterQuestions()" style="max-width:200px">
+          <select class="fi fi-select" id="qCatFilter" onchange="filterQuestions()">
+            <option value="">All Categories</option>
+          </select>
+          <select class="fi fi-select" id="qDiffFilter" onchange="filterQuestions()">
+            <option value="">All Difficulties</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+        <div class="tbl-wrap"><table><thead><tr><th>#</th><th>Question</th><th>Category</th><th>Difficulty</th><th>Actions</th></tr></thead><tbody id="qTable"></tbody></table></div>
+      </div>
+
+      <!-- USERS (admin) -->
+      <div class="page" id="page-users">
+        <div class="page-title">Users</div>
+        <div class="page-sub">Manage accounts: grant or revoke admin access, or delete an account</div>
+        <div class="alert alert-error" id="userMgmtErr"></div>
+
+        <div class="cards-row" id="userStatsCards"></div>
+
+        <div class="filter-bar">
+          <input class="fi" id="userSearch" placeholder="Search by name, username or email…" oninput="renderUsersTable()" style="max-width:260px">
+          <select class="fi fi-select" id="userRoleFilter" onchange="renderUsersTable()">
+            <option value="all">All Users</option>
+            <option value="admin">Admins</option>
+            <option value="user">Members</option>
+          </select>
+          <select class="fi fi-select" id="userSort" onchange="renderUsersTable()">
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+            <option value="name-asc">Name (A–Z)</option>
+            <option value="name-desc">Name (Z–A)</option>
+          </select>
+        </div>
+
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th></th><th>Name</th><th>Username</th><th>Email</th><th>Phone</th><th>Registered</th><th>Role</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody id="usersTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div class="page" id="page-settings">
+        <div class="page-title">Settings</div>
+        <div class="page-sub">Quiz behaviour configuration</div>
+        <div class="alert" id="settAlert"></div>
+
+        <div class="settings-block">
+          <div class="sblock-title">Normal Mode</div>
+          <div class="form-group"><label>Timer per question (seconds)</label><input type="number" class="form-input form-input-sm" id="s-normalTimer" min="5" max="120"></div>
+          <div class="toggle-row"><span class="toggle-lbl">Show explanations after answer</span><label class="toggle"><input type="checkbox" id="s-explain"><span class="tgl"></span></label></div>
+        </div>
+        <div class="settings-block">
+          <div class="sblock-title">Challenge Mode</div>
+          <div class="form-group"><label>Timer per question (seconds)</label><input type="number" class="form-input form-input-sm" id="s-challengeTimer" min="5" max="60"></div>
+          <div class="form-group"><label>Starting lives</label><input type="number" class="form-input form-input-sm" id="s-lives" min="1" max="10"></div>
+          <div class="form-group"><label>Streak highlight threshold</label><input type="number" class="form-input form-input-sm" id="s-streak" min="1" max="20"></div>
+        </div>
+        <div class="settings-block">
+          <div class="sblock-title">General</div>
+          <div class="form-group"><label>Questions per quiz</label><input type="number" class="form-input form-input-sm" id="s-perQuiz" min="1" max="50"></div>
+        </div>
+        <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+      </div>
+
+
+    </div><!-- /main -->
+  </div><!-- /mainArea -->
+</div><!-- /app -->
+
+<!-- Mobile overlay -->
+<div id="overlay" onclick="closeSidebar()"></div>
+
+<!-- Question modal -->
+<div class="modal-bg" id="qModal">
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="modalTitle">Add Question</h3>
+      <button class="modal-close" onclick="closeQModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="alert alert-error" id="modalErr"></div>
+      <div class="form-row">
+        <div class="form-group"><label>Category</label><input type="text" class="form-input" id="m-cat" placeholder="e.g. Python Basics"></div>
+        <div class="form-group"><label>Difficulty</label>
+          <select class="form-input" id="m-diff" style="appearance:none;background:var(--bg3)">
+            <option value="easy">Easy</option><option value="medium">Medium</option><option value="hard">Hard</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label>Question</label><textarea class="form-input form-textarea" id="m-q" placeholder="Write the question..."></textarea></div>
+      <div class="form-group"><label>Code Block <small style="color:var(--text3);text-transform:none;font-weight:400">(optional)</small></label><textarea class="form-input form-textarea form-code" id="m-code" placeholder="Python snippet…"></textarea></div>
+      <div class="form-group">
+        <label>Options <small style="color:var(--text3);text-transform:none;font-weight:400">— mark correct with radio</small></label>
+        <div class="opts-edit">
+          <div class="oe-row"><input type="radio" name="mAns" class="oe-radio" value="0"><span class="oe-lbl">A</span><input type="text" class="form-input" id="m-o0" placeholder="Option A"></div>
+          <div class="oe-row"><input type="radio" name="mAns" class="oe-radio" value="1"><span class="oe-lbl">B</span><input type="text" class="form-input" id="m-o1" placeholder="Option B"></div>
+          <div class="oe-row"><input type="radio" name="mAns" class="oe-radio" value="2"><span class="oe-lbl">C</span><input type="text" class="form-input" id="m-o2" placeholder="Option C"></div>
+          <div class="oe-row"><input type="radio" name="mAns" class="oe-radio" value="3"><span class="oe-lbl">D</span><input type="text" class="form-input" id="m-o3" placeholder="Option D"></div>
+        </div>
+      </div>
+      <div class="form-group"><label>Explanation <small style="color:var(--text3);text-transform:none;font-weight:400">(optional)</small></label><textarea class="form-input form-textarea" id="m-exp" placeholder="Explain the correct answer..."></textarea></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-ghost" onclick="closeQModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveQuestion()">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ════════════════════════════════════════
+   STATE
+════════════════════════════════════════ */
+let currentUser = null;
+let settings = {};
+let allQuestions = [];
+let categories = [];
+let editingQId = null;
+
+// Quiz state
+let session = null;
+let questions = [];
+let qIndex = 0;
+let timerInterval = null;
+let timerLeft = 0;
+let answered = false;
+let selectedMode = 'normal';
+let selectedDiff = 'all';
+let selectedCat = 'all';
+
+/* ════════════════════════════════════════
+   INIT
+════════════════════════════════════════ */
+(async function init() {
+  // Theme
+  const saved = localStorage.getItem('ca_theme') || 'dark';
+  setTheme(saved);
+
+  // Load user
+  const me = await api('/api/me');
+  if (!me.ok) { location.href = '/auth/login'; return; }
+  currentUser = me.user;
+
+  // Sidebar user chip
+  document.getElementById('sbAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
+  document.getElementById('sbName').textContent = currentUser.name;
+  document.getElementById('sbRole').textContent = currentUser.role === 'admin' ? 'Admin' : 'Member';
+
+  // Admin nav items
+  if (currentUser.role === 'admin') {
+    const nav = document.getElementById('sbNav');
+    nav.innerHTML += `
+      <div class="sb-sep" style="margin:8px 0"></div>
+      <div style="padding:4px 12px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text3)">Admin</div>
+      <button class="sb-item" data-page="admin" onclick="nav('admin')"><span class="sb-icon">📊</span> Dashboard</button>
+      <button class="sb-item" data-page="questions" onclick="nav('questions')"><span class="sb-icon">❓</span> Questions</button>
+      <button class="sb-item" data-page="users" onclick="nav('users')"><span class="sb-icon">👥</span> Users</button>
+      <button class="sb-item" data-page="settings" onclick="nav('settings')"><span class="sb-icon">⚙️</span> Settings</button>
+    `;
+  }
+
+  // Load data
+  const [sett, cats, qs] = await Promise.all([
+    api('/api/settings'), api('/api/categories'), api('/api/questions')
+  ]);
+  settings = sett;
+  categories = cats;
+  allQuestions = qs;
+
+  // Hero counts
+  document.getElementById('heroQCount').textContent = allQuestions.length;
+  document.getElementById('heroCatCount').textContent = categories.length;
+
+  // Category chips on home
+  const catChips = document.getElementById('catChips');
+  catChips.innerHTML = '<div class="chip selected" data-cat="all">All</div>';
+  categories.forEach(c => {
+    catChips.innerHTML += `<div class="chip" data-cat="${c}">${c}</div>`;
+  });
+  bindChips(catChips, 'cat');
+
+  // Difficulty chips
+  bindChips(document.getElementById('diffChips'), 'diff');
+
+  nav('home');
+})();
+
+/* ════════════════════════════════════════
+   API HELPER
+════════════════════════════════════════ */
+async function api(url, opts = {}) {
+  try {
+    const r = await fetch(url, opts);
+    if (r.status === 401 || r.status === 403) { location.href = '/auth/login'; }
+    return r.json();
+  } catch(e) { return { ok: false, error: e.message }; }
+}
+
+/* ════════════════════════════════════════
+   NAVIGATION
+════════════════════════════════════════ */
+function nav(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.querySelectorAll('.sb-item').forEach(b => {
+    b.classList.toggle('active', b.dataset.page === page);
+  });
+  closeSidebar();
+  if (page === 'mydash') loadMyDash();
+  if (page === 'admin') loadAdminDash();
+  if (page === 'questions') loadQuestionsTable();
+  if (page === 'settings') loadSettings();
+  if (page === 'users') loadUsersTable();
+}
+
+/* ════════════════════════════════════════
+   SIDEBAR / THEME
+════════════════════════════════════════ */
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('open');
+}
+function setTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  localStorage.setItem('ca_theme', t);
+  const icon = t === 'dark' ? '☀️' : '🌙';
+  const label = t === 'dark' ? 'Light Mode' : 'Dark Mode';
+  document.getElementById('themeIcon').textContent = icon;
+  document.getElementById('themeLabel').textContent = label;
+  document.getElementById('topThemeIcon').textContent = icon;
+}
+function toggleTheme() {
+  const cur = document.documentElement.getAttribute('data-theme');
+  setTheme(cur === 'dark' ? 'light' : 'dark');
+}
+
+/* ════════════════════════════════════════
+   LOGOUT
+════════════════════════════════════════ */
+async function doLogout() {
+  await api('/auth/logout', { method: 'POST' });
+  location.href = '/auth/login';
+}
+
+/* ════════════════════════════════════════
+   CHIP SELECTORS
+════════════════════════════════════════ */
+function bindChips(container, type) {
+  container.addEventListener('click', e => {
+    const chip = e.target.closest('.chip');
+    if (!chip) return;
+    container.querySelectorAll('.chip').forEach(c => {
+      c.className = 'chip';
+    });
+    chip.classList.add('selected');
+    if (type === 'diff') {
+      selectedDiff = chip.dataset.diff;
+      if (selectedDiff === 'easy') chip.classList.add('selected-easy');
+      else if (selectedDiff === 'medium') chip.classList.add('selected-medium');
+      else if (selectedDiff === 'hard') chip.classList.add('selected-hard');
+    }
+    if (type === 'cat') selectedCat = chip.dataset.cat;
+  });
+}
+function selectMode(el) {
+  document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedMode = el.dataset.mode;
+}
+
+/* ════════════════════════════════════════
+   QUIZ
+════════════════════════════════════════ */
+async function startQuiz() {
+  const r = await api('/api/quiz/start', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ mode: selectedMode, difficulty: selectedDiff, category: selectedCat })
+  });
+  if (!r.ok) return alert(r.error || 'Could not start quiz.');
+  const full = await api('/api/quiz/' + r.sessionId);
+  session = full.session;
+  questions = full.questions;
+  qIndex = 0;
+  nav('quiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  if (qIndex >= questions.length) { loadResults(session.id); return; }
+  const q = questions[qIndex];
+  const total = questions.length;
+  const timerSec = session.mode === 'challenge' ? settings.challengeTimer : settings.normalTimer;
+
+  // Progress
+  document.getElementById('qProgress').style.width = Math.round((qIndex / total) * 100) + '%';
+  document.getElementById('qCountLabel').textContent = `Q ${qIndex + 1} / ${total}`;
+
+  // Mode badge
+  const mb = document.getElementById('modeBadge');
+  mb.textContent = session.mode === 'challenge' ? '🔥 Challenge' : '📚 Normal';
+  mb.className = 'badge badge-' + session.mode;
+
+  // Lives & streak (challenge)
+  const livesRow = document.getElementById('livesRow');
+  const streakBadge = document.getElementById('streakBadge');
+  if (session.mode === 'challenge') {
+    livesRow.style.display = 'flex';
+    streakBadge.style.display = '';
+    livesRow.innerHTML = Array.from({length: settings.challengeLives}, (_,i) =>
+      `<span class="life ${i < session.lives ? '' : 'off'}">♥</span>`
+    ).join('');
+    streakBadge.textContent = '🔥 ' + session.streak;
+  } else {
+    livesRow.style.display = 'none';
+    streakBadge.style.display = 'none';
+  }
+
+  // Question card
+  document.getElementById('quizContent').innerHTML = `
+    <div class="qcard">
+      <div class="qcard-meta">
+        <span class="diff diff-${q.difficulty}">${q.difficulty}</span>
+        <span class="cat-tag">${q.category}</span>
+      </div>
+      <div class="q-text">${q.question}</div>
+      ${q.code ? `<pre class="code-block">${escHtml(q.code)}</pre>` : ''}
+      <div class="options" id="optionsList">
+        ${q.options.map((o, i) => `
+          <button class="opt" data-idx="${i}" onclick="submitAnswer(${i})">
+            <span class="opt-letter">${'ABCD'[i]}</span>
+            <span>${escHtml(o)}</span>
+          </button>`).join('')}
+      </div>
+    </div>`;
+
+  startTimer(timerSec, q);
+}
+
+function startTimer(sec, q) {
+  clearInterval(timerInterval);
+  timerLeft = sec;
+  answered = false;
+  const numEl = document.getElementById('timerNum');
+  const arcEl = document.getElementById('tArc');
+  const ringEl = document.getElementById('timerEl');
+  const C = 100.5;
+  if (numEl) numEl.textContent = sec;
+  if (arcEl) arcEl.style.strokeDashoffset = 0;
+  if (ringEl) ringEl.classList.remove('urgent');
+
+  timerInterval = setInterval(() => {
+    timerLeft--;
+    if (numEl) numEl.textContent = timerLeft;
+    if (arcEl) arcEl.style.strokeDashoffset = ((sec - timerLeft) / sec) * C;
+    if (ringEl && timerLeft <= 5) ringEl.classList.add('urgent');
+    if (timerLeft <= 0) {
+      clearInterval(timerInterval);
+      if (!answered) submitAnswer(-1, q); // timeout
+    }
+  }, 1000);
+}
+
+async function submitAnswer(selected, qOverride) {
+  if (answered) return;
+  answered = true;
+  clearInterval(timerInterval);
+  const timeTaken = (session.mode === 'challenge' ? settings.challengeTimer : settings.normalTimer) - timerLeft;
+  const q = qOverride || questions[qIndex];
+
+  const r = await api(`/api/quiz/${session.id}/answer`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ questionId: q.id, selected, timeTaken })
+  });
+  if (!r.ok) return;
+
+  // Update local session state
+  session.streak = r.streak;
+  session.lives = r.lives;
+
+  // Highlight options
+  const opts = document.querySelectorAll('.opt');
+  opts.forEach(o => {
+    const i = parseInt(o.dataset.idx);
+    o.classList.add('answered');
+    if (i === r.correctIndex) o.classList.add('correct'), o.innerHTML += '<span class="opt-mark">✓</span>';
+    else if (i === selected && !r.correct) o.classList.add('wrong'), o.innerHTML += '<span class="opt-mark">✗</span>';
+    else o.classList.add('dimmed');
+  });
+
+  // Game over?
+  if (r.gameOver) {
+    document.getElementById('quizContent').innerHTML = `
+      <div class="gameover">
+        <div class="go-icon">💀</div>
+        <div class="go-title">Game Over!</div>
+        <div class="go-sub">You ran out of lives. Better luck next time!</div>
+        <div class="go-actions">
+          <button class="btn btn-primary" onclick="startQuiz()">Try Again</button>
+          <button class="btn btn-outline" onclick="nav('home')">Home</button>
+        </div>
+      </div>`;
+    return;
+  }
+
+  // Feedback (normal mode)
+  if (session.mode === 'normal' && r.explanation) {
+    const fb = document.createElement('div');
+    fb.className = `feedback ${r.correct ? 'fb-correct' : 'fb-wrong'}`;
+    fb.innerHTML = `<div class="fb-icon">${r.correct ? '✅' : '❌'}</div>
+      <div><div class="fb-result">${r.correct ? 'Correct!' : 'Incorrect'}</div>
+      <div class="fb-exp">${escHtml(r.explanation)}</div></div>`;
+    document.getElementById('quizContent').querySelector('.qcard').appendChild(fb);
+  }
+
+  // Next button
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'btn btn-primary btn-full btn-lg';
+  nextBtn.style.marginTop = '14px';
+  nextBtn.textContent = r.finished ? 'See Results →' : 'Next →';
+  nextBtn.onclick = () => {
+    if (r.finished) loadResults(session.id);
+    else { qIndex++; renderQuestion(); }
+  };
+  document.getElementById('quizContent').appendChild(nextBtn);
+}
+
+async function loadResults(sessionId) {
+  nav('results');
+  const r = await api(`/api/quiz/${sessionId}/results`);
+  if (!r.ok) { document.getElementById('resultsContent').innerHTML = '<p>Could not load results.</p>'; return; }
+
+  const { correct, total, score, avgTime, review, session: s } = r;
+  let badge, badgeClass;
+  if (score >= 90) { badge = '🏆 Excellent'; badgeClass = 'badge-gold'; }
+  else if (score >= 70) { badge = '⭐ Good'; badgeClass = 'badge-silver'; }
+  else if (score >= 50) { badge = '📚 Keep Practicing'; badgeClass = 'badge-bronze'; }
+  else { badge = '💪 Try Again'; badgeClass = 'badge-miss'; }
+
+  const extraStats = s.mode === 'challenge' ? `
+    <div class="stat-card"><div class="stat-v sv-orange">🔥 ${s.bestStreak}</div><div class="stat-l">Best Streak</div></div>
+    <div class="stat-card"><div class="stat-v">♥ ${Math.max(0, s.lives)}</div><div class="stat-l">Lives Left</div></div>
+  ` : '';
+
+  const reviewItems = review.map((item, i) => `
+    <div class="ri ${item.correct ? 'ri-ok' : 'ri-bad'}">
+      <div class="ri-head">
+        <span class="ri-num">${i+1}</span>
+        <span class="ri-q">${escHtml(item.question)}</span>
+        <span class="ri-mark">${item.correct ? '✓' : '✗'}</span>
+      </div>
+      ${!item.correct && item.explanation ? `<div class="ri-detail"><strong>Correct:</strong> ${escHtml(item.options[item.answer])}<br>${escHtml(item.explanation)}</div>` : ''}
+    </div>`).join('');
+
+  document.getElementById('resultsContent').innerHTML = `
+    <div class="results-hero">
+      <div class="rh-left">
+        <div class="big-score">${score}<small>%</small></div>
+        <span class="score-badge ${badgeClass}">${badge}</span>
+        ${s.mode === 'challenge' ? `<span class="ch-result ${s.status === 'gameover' ? 'ch-fail' : 'ch-win'}">${s.status === 'gameover' ? '💀 Game Over' : '🔥 Survived!'}</span>` : ''}
+        <div class="rh-actions">
+          <button class="btn btn-primary" onclick="startQuiz()">Play Again</button>
+          <button class="btn btn-outline" onclick="nav('home')">Home</button>
+        </div>
+      </div>
+      <div class="rh-right">
+        <div class="stat-grid">
+          <div class="stat-card"><div class="stat-v sv-green">${correct}</div><div class="stat-l">Correct</div></div>
+          <div class="stat-card"><div class="stat-v sv-red">${total - correct}</div><div class="stat-l">Wrong</div></div>
+          <div class="stat-card"><div class="stat-v">${avgTime}s</div><div class="stat-l">Avg. Time</div></div>
+          <div class="stat-card"><div class="stat-v">${total}</div><div class="stat-l">Questions</div></div>
+          ${extraStats}
+        </div>
+      </div>
+    </div>
+    <div class="section-title" style="margin-bottom:12px">Review</div>
+    <div class="review-list">${reviewItems}</div>
+  `;
+}
+
+/* ════════════════════════════════════════
+   MEMBER — MY DASHBOARD
+════════════════════════════════════════ */
+async function loadMyDash() {
+  const [stats, lb] = await Promise.all([api('/api/me/stats'), api('/api/leaderboard')]);
+  if (!stats.ok) return;
+
+  document.getElementById('mdHeroName').textContent = `Salut ${currentUser.name} 👋`;
+  document.getElementById('mdTotalQuizzes').textContent = stats.totalQuizzes;
+  document.getElementById('mdBestScore').textContent = stats.bestScore + '%';
+  document.getElementById('mdBestStreak').textContent = stats.bestStreak;
+  document.getElementById('mdBadgeCount').textContent = stats.badges.filter(b => b.unlocked).length + '/' + stats.badges.length;
+  document.getElementById('mdAvgScore').textContent = stats.avgScore + '%';
+
+  // Ring progress
+  const C = 352;
+  const arc = document.getElementById('mdRingArc');
+  arc.style.strokeDashoffset = C - (Math.min(100, stats.avgScore) / 100) * C;
+
+  // Badges
+  document.getElementById('mdBadges').innerHTML = stats.badges.map(b => `
+    <div class="badge-tile ${b.unlocked ? 'unlocked' : ''}">
+      <div class="bt-icon">${b.icon}</div>
+      <div class="bt-name">${b.name}</div>
+      <div class="bt-desc">${b.desc}</div>
+    </div>`).join('');
+
+  // Category bars
+  const maxCount = Math.max(1, ...stats.categoryBreakdown.map(c => c.count));
+  document.getElementById('mdCatBars').innerHTML = stats.categoryBreakdown.length
+    ? stats.categoryBreakdown.map(c => `
+      <div class="cbr">
+        <div class="cbr-name">${escHtml(c.name)}</div>
+        <div class="cbr-track"><div class="cbr-fill" style="width:${(c.count / maxCount) * 100}%"></div></div>
+        <div class="cbr-val">${c.avg}% avg</div>
+      </div>`).join('')
+    : '<div class="empty-hint">Aucun quiz terminé pour l\'instant. Lance ton premier quiz !</div>';
+
+  // Timeline
+  document.getElementById('mdTimeline').innerHTML = stats.recent.length
+    ? stats.recent.map(s => {
+        const dotClass = s.score >= 70 ? 'tl-good' : s.score >= 40 ? 'tl-mid' : 'tl-bad';
+        const date = new Date(s.createdAt).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' });
+        return `
+        <div class="tl-item">
+          <span class="tl-dot ${dotClass}"></span>
+          <div class="tl-body">
+            <div class="tl-title">${s.mode === 'challenge' ? '🔥 Challenge' : '📚 Normal'} · ${escHtml(s.category === 'all' ? 'Mixte' : s.category)}</div>
+            <div class="tl-sub">${date} · ${s.correct}/${s.total} correctes${s.status === 'gameover' ? ' · 💀 Game Over' : ''}</div>
+          </div>
+          <div class="tl-score">${s.score}%</div>
+        </div>`;
+      }).join('')
+    : '<div class="empty-hint">Aucun historique pour l\'instant.</div>';
+
+  // Leaderboard
+  document.getElementById('mdLeaderboard').innerHTML = (lb && lb.length)
+    ? lb.map((row, i) => `
+      <div class="lb-row ${row.userId === currentUser.id ? 'lb-me' : ''}">
+        <span class="lb-rank ${i < 3 ? 'lb-' + (i + 1) : ''}">${i + 1}</span>
+        <span class="lb-name">${escHtml(row.name)}${row.mode === 'challenge' ? ' 🔥' : ''}</span>
+        <span class="lb-score">${row.score}%</span>
+      </div>`).join('')
+    : '<div class="empty-hint">Le classement se remplira après les premiers quiz.</div>';
+}
+
+/* ════════════════════════════════════════
+   ADMIN — DASHBOARD
+════════════════════════════════════════ */
+async function loadAdminDash() {
+  const d = await api('/api/stats');
+  document.getElementById('adminCards').innerHTML = [
+    ['❓', d.questions, 'Questions'],
+    ['👥', d.users, 'Users'],
+    ['🎮', d.sessions, 'Sessions'],
+    ['📈', d.avgScore + '%', 'Avg. Score']
+  ].map(([icon, val, lbl]) => `
+    <div class="dash-card"><div class="dc-icon">${icon}</div><div class="dc-val">${val}</div><div class="dc-lbl">${lbl}</div></div>
+  `).join('');
+
+  document.getElementById('catTable').innerHTML = (d.byCategory || []).map(c => `
+    <tr><td><strong>${c.name}</strong></td><td>${c.total}</td>
+    <td style="color:var(--green)">${c.easy}</td>
+    <td style="color:var(--orange)">${c.medium}</td>
+    <td style="color:var(--red)">${c.hard}</td></tr>
+  `).join('') || '<tr><td class="td-empty" colspan="5">No data</td></tr>';
+}
+
+/* ════════════════════════════════════════
+   ADMIN — QUESTIONS
+════════════════════════════════════════ */
+async function loadQuestionsTable() {
+  allQuestions = await api('/api/questions');
+  categories = await api('/api/categories');
+
+  const catFilter = document.getElementById('qCatFilter');
+  catFilter.innerHTML = '<option value="">All Categories</option>' +
+    categories.map(c => `<option value="${c}">${c}</option>`).join('');
+  renderQTable(allQuestions);
+  document.getElementById('qLibCount').textContent = allQuestions.length + ' question(s)';
+}
+
+function filterQuestions() {
+  const s = document.getElementById('qSearch').value.toLowerCase();
+  const cat = document.getElementById('qCatFilter').value;
+  const diff = document.getElementById('qDiffFilter').value;
+  const filtered = allQuestions.filter(q =>
+    (!s || q.question.toLowerCase().includes(s)) &&
+    (!cat || q.category === cat) &&
+    (!diff || q.difficulty === diff)
+  );
+  renderQTable(filtered);
+}
+
+function renderQTable(qs) {
+  document.getElementById('qTable').innerHTML = qs.length === 0
+    ? '<tr><td class="td-empty" colspan="5">No questions found.</td></tr>'
+    : qs.map((q, i) => `
+      <tr>
+        <td style="color:var(--text3);font-weight:600">${i+1}</td>
+        <td style="max-width:300px">${escHtml(q.question.length > 70 ? q.question.slice(0,70)+'…' : q.question)}${q.code ? '<span class="has-code">{ code }</span>' : ''}</td>
+        <td>${escHtml(q.category)}</td>
+        <td><span class="diff diff-${q.difficulty}">${q.difficulty}</span></td>
+        <td class="td-actions">
+          <button class="btn btn-sm btn-outline" onclick="openQEdit('${q.id}')">Edit</button>
+          <button class="btn btn-sm btn-danger" onclick="deleteQ('${q.id}')">Delete</button>
+        </td>
+      </tr>`).join('');
+}
+
+function openQModal() {
+  editingQId = null;
+  document.getElementById('modalTitle').textContent = 'Add Question';
+  document.getElementById('m-cat').value = '';
+  document.getElementById('m-diff').value = 'easy';
+  document.getElementById('m-q').value = '';
+  document.getElementById('m-code').value = '';
+  document.getElementById('m-o0').value = '';
+  document.getElementById('m-o1').value = '';
+  document.getElementById('m-o2').value = '';
+  document.getElementById('m-o3').value = '';
+  document.getElementById('m-exp').value = '';
+  document.querySelectorAll('input[name="mAns"]').forEach(r => r.checked = false);
+  setAlert('modalErr','');
+  document.getElementById('qModal').classList.add('open');
+}
+
+function openQEdit(id) {
+  const q = allQuestions.find(x => x.id === id);
+  if (!q) return;
+  editingQId = q.id;
+  document.getElementById('modalTitle').textContent = 'Edit Question';
+  document.getElementById('m-cat').value = q.category;
+  document.getElementById('m-diff').value = q.difficulty;
+  document.getElementById('m-q').value = q.question;
+  document.getElementById('m-code').value = q.code || '';
+  document.getElementById('m-o0').value = q.options[0] || '';
+  document.getElementById('m-o1').value = q.options[1] || '';
+  document.getElementById('m-o2').value = q.options[2] || '';
+  document.getElementById('m-o3').value = q.options[3] || '';
+  document.getElementById('m-exp').value = q.explanation || '';
+  document.querySelectorAll('input[name="mAns"]').forEach(r => { r.checked = parseInt(r.value) === q.answer; });
+  setAlert('modalErr','');
+  document.getElementById('qModal').classList.add('open');
+}
+
+function closeQModal() { document.getElementById('qModal').classList.remove('open'); }
+
+async function saveQuestion() {
+  const cat = document.getElementById('m-cat').value.trim();
+  const diff = document.getElementById('m-diff').value;
+  const question = document.getElementById('m-q').value.trim();
+  const code = document.getElementById('m-code').value.trim();
+  const options = ['m-o0','m-o1','m-o2','m-o3'].map(id => document.getElementById(id).value.trim());
+  const answerEl = document.querySelector('input[name="mAns"]:checked');
+  const explanation = document.getElementById('m-exp').value.trim();
+
+  if (!cat || !question || options.some(o => !o))
+    return setAlert('modalErr','Category, question and all 4 options are required.');
+  if (!answerEl) return setAlert('modalErr','Please select the correct answer.');
+
+  const body = { category: cat, difficulty: diff, question, code: code || null, options, answer: parseInt(answerEl.value), explanation };
+  const r = editingQId
+    ? await api(`/api/questions/${editingQId}`, { method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify(body) })
+    : await api('/api/questions', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(body) });
+
+  if (!r.ok) return setAlert('modalErr', r.error || 'Failed to save.');
+  closeQModal();
+  loadQuestionsTable();
+}
+
+async function deleteQ(id) {
+  if (!confirm('Delete this question?')) return;
+  await api(`/api/questions/${id}`, { method: 'DELETE' });
+  loadQuestionsTable();
+}
+
+/* ════════════════════════════════════════
+   ADMIN — USER MANAGEMENT
+════════════════════════════════════════ */
+let allUsers = [];
+
+async function loadUsersTable() {
+  const users = await api('/api/users');
+  if (!Array.isArray(users)) return;
+  allUsers = users;
+  renderUserStats();
+  renderUsersTable();
+}
+
+function renderUserStats() {
+  const total = allUsers.length;
+  const admins = allUsers.filter(u => u.role === 'admin').length;
+  const members = total - admins;
+  const now = new Date();
+  const newThisMonth = allUsers.filter(u => {
+    const d = new Date(u.createdAt);
+    return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+  }).length;
+
+  document.getElementById('userStatsCards').innerHTML = [
+    ['👥', total, 'Total Users'],
+    ['🛡️', admins, 'Total Admins'],
+    ['🙋', members, 'Total Members'],
+    ['🆕', newThisMonth, 'New This Month']
+  ].map(([icon, val, lbl]) => `
+    <div class="dash-card"><div class="dc-icon">${icon}</div><div class="dc-val">${val}</div><div class="dc-lbl">${lbl}</div></div>
+  `).join('');
+}
+
+// Renders the (filtered/searched/sorted) table from the in-memory allUsers list —
+// no re-fetch needed, so search/filter/sort feel instant as the admin types.
+function renderUsersTable() {
+  const q = (document.getElementById('userSearch')?.value || '').toLowerCase().trim();
+  const roleFilter = document.getElementById('userRoleFilter')?.value || 'all';
+  const sortBy = document.getElementById('userSort')?.value || 'newest';
+
+  let rows = allUsers.filter(u => {
+    if (roleFilter !== 'all' && u.role !== roleFilter) return false;
+    if (!q) return true;
+    const username = (u.username || u.email.split('@')[0]).toLowerCase();
+    return u.name.toLowerCase().includes(q) || username.includes(q) || u.email.toLowerCase().includes(q);
+  });
+
+  rows = rows.slice().sort((a, b) => {
+    if (sortBy === 'newest') return new Date(b.createdAt) - new Date(a.createdAt);
+    if (sortBy === 'oldest') return new Date(a.createdAt) - new Date(b.createdAt);
+    if (sortBy === 'name-asc') return a.name.localeCompare(b.name);
+    if (sortBy === 'name-desc') return b.name.localeCompare(a.name);
+    return 0;
+  });
+
+  document.getElementById('usersTable').innerHTML = rows.length === 0
+    ? '<tr><td class="td-empty" colspan="9">No users match your search.</td></tr>'
+    : rows.map(u => {
+        const username = u.username || u.email.split('@')[0];
+        const status = u.status || 'active';
+        const initials = u.name.trim().charAt(0).toUpperCase();
+        const regDate = new Date(u.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+        const isSelf = u.id === currentUser.id;
+
+        return `
+        <tr>
+          <td>
+            ${u.avatarUrl
+              ? `<img src="${escHtml(u.avatarUrl)}" alt="" style="width:32px;height:32px;border-radius:50%;object-fit:cover">`
+              : `<div style="width:32px;height:32px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem">${initials}</div>`}
+          </td>
+          <td style="font-weight:600">${escHtml(u.name)}</td>
+          <td style="color:var(--text2)">@${escHtml(username)}</td>
+          <td>${escHtml(u.email)}</td>
+          <td>${escHtml(u.phone || '—')}</td>
+          <td style="color:var(--text2);white-space:nowrap">${regDate}</td>
+          <td>
+            ${isSelf
+              ? `<span class="diff ${u.role === 'admin' ? 'diff-hard' : 'diff-easy'}">${u.role === 'admin' ? 'Admin' : 'Member'}</span>`
+              : `<select class="fi fi-select" style="padding:4px 8px;font-size:.78rem" onchange="toggleUserRole('${u.id}', this.value)">
+                   <option value="user" ${u.role !== 'admin' ? 'selected' : ''}>Member</option>
+                   <option value="admin" ${u.role === 'admin' ? 'selected' : ''}>Admin</option>
+                 </select>`}
+          </td>
+          <td>
+            ${isSelf
+              ? `<span class="diff ${status === 'active' ? 'diff-easy' : 'diff-hard'}">${status === 'active' ? 'Active' : 'Suspended'}</span>`
+              : `<button class="btn btn-sm btn-outline" onclick="toggleUserStatus('${u.id}','${status === 'active' ? 'suspended' : 'active'}')">${status === 'active' ? 'Active' : 'Suspended'}</button>`}
+          </td>
+          <td class="td-actions">
+            ${isSelf
+              ? '<span style="font-size:.78rem;color:var(--text3)">This is you</span>'
+              : `<button class="btn btn-sm btn-danger" onclick="deleteUser('${u.id}')">Delete</button>`}
+          </td>
+        </tr>`;
+      }).join('');
+}
+
+async function toggleUserRole(id, newRole) {
+  setAlert('userMgmtErr', '');
+  const r = await api(`/api/users/${id}/role`, {
+    method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ role: newRole })
+  });
+  if (!r.ok) { setAlert('userMgmtErr', r.error || 'Failed to update role.'); return loadUsersTable(); }
+  loadUsersTable();
+}
+
+async function toggleUserStatus(id, newStatus) {
+  setAlert('userMgmtErr', '');
+  const r = await api(`/api/users/${id}/status`, {
+    method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ status: newStatus })
+  });
+  if (!r.ok) return setAlert('userMgmtErr', r.error || 'Failed to update status.');
+  loadUsersTable();
+}
+
+async function deleteUser(id) {
+  setAlert('userMgmtErr', '');
+  const u = allUsers.find(x => x.id === id);
+  if (!confirm(`Delete the account "${u ? u.name : id}"? This cannot be undone.`)) return;
+  const r = await api(`/api/users/${id}`, { method: 'DELETE' });
+  if (!r.ok) return setAlert('userMgmtErr', r.error || 'Failed to delete user.');
+  loadUsersTable();
+}
+
+/* ════════════════════════════════════════
+   ADMIN — SETTINGS
+════════════════════════════════════════ */
+async function loadSettings() {
+  const s = await api('/api/settings');
+  document.getElementById('s-normalTimer').value = s.normalTimer;
+  document.getElementById('s-challengeTimer').value = s.challengeTimer;
+  document.getElementById('s-lives').value = s.challengeLives;
+  document.getElementById('s-streak').value = s.challengeStreakThreshold;
+  document.getElementById('s-perQuiz').value = s.questionsPerQuiz;
+  document.getElementById('s-explain').checked = s.showExplanations;
+  setAlert('settAlert','');
+}
+
+async function saveSettings() {
+  const body = {
+    normalTimer: +document.getElementById('s-normalTimer').value,
+    challengeTimer: +document.getElementById('s-challengeTimer').value,
+    challengeLives: +document.getElementById('s-lives').value,
+    challengeStreakThreshold: +document.getElementById('s-streak').value,
+    questionsPerQuiz: +document.getElementById('s-perQuiz').value,
+    showExplanations: document.getElementById('s-explain').checked
+  };
+  const r = await api('/api/settings', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(body) });
+  if (r.ok) { settings = r.settings; showAlert('settAlert','Settings saved.','success'); }
+  else showAlert('settAlert', r.error || 'Failed.','error');
+}
+
+/* ════════════════════════════════════════
+   UTILS
+════════════════════════════════════════ */
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function setAlert(id, msg, type='error') {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = msg;
+  el.className = 'alert alert-' + type + (msg ? ' show' : '');
+}
+function showAlert(id, msg, type) {
+  setAlert(id, msg, type);
+  setTimeout(() => setAlert(id,''), 3000);
+}
+</script>
+</body>
+</html>

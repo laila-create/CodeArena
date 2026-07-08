@@ -1,0 +1,472 @@
+[
+  {
+    "id": "mr7sqcfonj8q",
+    "createdAt": "2026-07-05T12:57:34.836Z",
+    "mode": "challenge",
+    "difficulty": "all",
+    "category": "all",
+    "userId": "mr7s2em5wk7b",
+    "questions": [
+      "mr7scl5xs74j",
+      "mqwur0qsvhsw",
+      "mqwur0qq30le",
+      "mqwur0qsvoc0",
+      "mqwur0qrd9lm",
+      "mqwur0qrxe8f",
+      "mqwur0qrsvds",
+      "mqwur0qrwgth",
+      "mr7scl5xpf5j",
+      "mr7scl5xjupl"
+    ],
+    "answers": [
+      {
+        "questionId": "mr7scl5xs74j",
+        "selected": 3,
+        "correct": false,
+        "timeTaken": 5
+      },
+      {
+        "questionId": "mqwur0qsvhsw",
+        "selected": 0,
+        "correct": false,
+        "timeTaken": 4
+      },
+      {
+        "questionId": "mqwur0qq30le",
+        "selected": 3,
+        "correct": false,
+        "timeTaken": 14
+      }
+    ],
+    "lives": 0,
+    "streak": 0,
+    "bestStreak": 0,
+    "status": "gameover",
+    "updatedAt": "2026-07-05T12:58:03.388Z"
+  },
+  {
+    "id": "mr7sr07cvbi1",
+    "createdAt": "2026-07-05T12:58:05.640Z",
+    "mode": "challenge",
+    "difficulty": "all",
+    "category": "all",
+    "userId": "mr7s2em5wk7b",
+    "questions": [
+      "mr7scl5xfysc",
+      "mqwur0qsu4kb",
+      "mr7scl5xtfko",
+      "mqwur0qq30le",
+      "mqwur0qrbejc",
+      "mr7scl5xa8bd",
+      "mqwur0qsvhsw",
+      "mqwur0qqpqm8",
+      "mqwur0qsvoc0",
+      "mr7scl5x0zc1"
+    ],
+    "answers": [
+      {
+        "questionId": "mr7scl5xfysc",
+        "selected": 0,
+        "correct": false,
+        "timeTaken": 1
+      },
+      {
+        "questionId": "mqwur0qsu4kb",
+        "selected": 2,
+        "correct": true,
+        "timeTaken": 10
+      },
+      {
+        "questionId": "mr7scl5xtfko",
+        "selected": 0,
+        "correct": true,
+        "timeTaken": 8
+      },
+      {
+        "questionId": "mqwur0qq30le",
+        "selected": 2,
+        "correct": false,
+        "timeTaken": 9
+      },
+      {
+        "questionId": "mqwur0qrbejc",
+        "selected": 1,
+        "correct": false,
+        "timeTaken": 5
+      }
+    ],
+    "lives": 0,
+    "streak": 0,
+    "bestStreak": 2,
+    "status": "gameover",
+    "updatedAt": "2026-07-05T12:58:50.725Z"
+  },
+  {
+    "id": "mr7sy0vm7zgx",
+    "createdAt": "2026-07-05T13:03:33.106Z",
+    "mode": "normal",
+    "difficulty": "all",
+    "category": "all",
+    "userId": "mr7s2em5wk7b",
+    "questions": [
+      "mqwur0qqpqm8",
+      "mr7scl5xxske",
+      "mqwur0qrxe8f",
+      "mqwur0qsvoc0",
+      "mqwur0qrbejc",
+      "mr7scl5xs74j",
+      "mqwur0qq30le",
+      "mqwur0qsvhsw",
+      "mr7scl5xa8bd",
+      "mqwur0qrsvds"
+    ],
+    "answers": [
+      {
+        "questionId": "mqwur0qqpqm8",
+        "selected": 0,
+        "correct": false,
+        "timeTaken": 2
+      },
+      {
+        "questionId": "mr7scl5xxske",
+        "selected": -1,
+        "correct": false,
+        "timeTaken": 30
+      }
+    ],
+    "lives": null,
+    "streak": 0,
+    "bestStreak": 0,
+    "status": "active",
+    "updatedAt": "2026-07-05T13:04:10.122Z"
+  },
+  {
+    "id": "mr7t4cyjhu78",
+    "createdAt": "2026-07-05T13:08:28.699Z",
+    "mode": "normal",
+    "difficulty": "easy",
+    "category": "Python Basics",
+    "userId": "mqwur0qn1wu0",
+    "questions": [
+      "mqwur0qq30le",
+      "mqwur0qqpqm8"
+    ],
+    "answers": [
+      {
+        "questionId": "mqwur0qq30le",
+        "selected": 0,
+        "correct": true,
+        "timeTaken": 3
+      },
+      {
+        "questionId": "mqwur0qqpqm8",
+        "selected": 1,
+        "correct": true,
+        "timeTaken": 5
+      }
+    ],
+    "lives": null,
+    "streak": 2,
+    "bestStreak": 2,
+    "status": "completed",
+    "updatedAt": "2026-07-05T13:08:40.075Z"
+  },
+  {
+    "id": "mr7t5j6qkqrj",
+    "createdAt": "2026-07-05T13:09:23.426Z",
+    "mode": "normal",
+    "difficulty": "easy",
+    "category": "Python Basics",
+    "userId": "mqwur0qn1wu0",
+    "questions": [
+      "mqwur0qqpqm8",
+      "mqwur0qq30le"
+    ],
+    "answers": [
+      {
+        "questionId": "mqwur0qqpqm8",
+        "selected": 1,
+        "correct": true,
+        "timeTaken": 2
+      },
+      {
+        "questionId": "mqwur0qq30le",
+        "selected": 0,
+        "correct": true,
+        "timeTaken": 1
+      }
+    ],
+    "lives": null,
+    "streak": 2,
+    "bestStreak": 2,
+    "status": "completed",
+    "updatedAt": "2026-07-05T13:09:29.092Z"
+  },
+  {
+    "id": "mr7t89wpz1ia",
+    "createdAt": "2026-07-05T13:11:31.369Z",
+    "mode": "normal",
+    "difficulty": "easy",
+    "category": "Python Basics",
+    "userId": "mqwur0qn1wu0",
+    "questions": [
+      "mqwur0qq30le",
+      "mqwur0qqpqm8"
+    ],
+    "answers": [
+      {
+        "questionId": "mqwur0qq30le",
+        "selected": 0,
+        "correct": true,
+        "timeTaken": 1
+      },
+      {
+        "questionId": "mqwur0qqpqm8",
+        "selected": 1,
+        "correct": true,
+        "timeTaken": 1
+      }
+    ],
+    "lives": null,
+    "streak": 2,
+    "bestStreak": 2,
+    "status": "completed",
+    "updatedAt": "2026-07-05T13:11:36.244Z"
+  },
+  {
+    "id": "mr7t8ku05kzk",
+    "createdAt": "2026-07-05T13:11:45.528Z",
+    "mode": "normal",
+    "difficulty": "all",
+    "category": "all",
+    "userId": "mqwur0qn1wu0",
+    "questions": [
+      "mqwur0qq30le",
+      "mqwur0qrt523",
+      "mqwur0qrd9lm",
+      "mqwur0qrxe8f",
+      "mr7scl5xxske",
+      "mqwur0qsu4kb",
+      "mr7scl5xs74j",
+      "mr7scl5xtfko",
+      "mqwur0qrbejc",
+      "mqwur0qsvhsw"
+    ],
+    "answers": [
+      {
+        "questionId": "mqwur0qq30le",
+        "selected": 0,
+        "correct": true,
+        "timeTaken": 1
+      },
+      {
+        "questionId": "mqwur0qrt523",
+        "selected": 0,
+        "correct": false,
+        "timeTaken": 1
+      },
+      {
+        "questionId": "mqwur0qrd9lm",
+        "selected": 3,
+        "correct": false,
+        "timeTaken": 1
+      },
+      {
+        "questionId": "mqwur0qrxe8f",
+        "selected": 1,
+        "correct": false,
+        "timeTaken": 0
+      },
+      {
+        "questionId": "mr7scl5xxske",
+        "selected": 0,
+        "correct": false,
+        "timeTaken": 1
+      },
+      {
+        "questionId": "mqwur0qsu4kb",
+        "selected": 1,
+        "correct": false,
+        "timeTaken": 1
+      },
+      {
+        "questionId": "mr7scl5xs74j",
+        "selected": 1,
+        "correct": true,
+        "timeTaken": 1
+      },
+      {
+        "questionId": "mr7scl5xtfko",
+        "selected": 0,
+        "correct": true,
+        "timeTaken": 1
+      },
+      {
+        "questionId": "mqwur0qrbejc",
+        "selected": 1,
+        "correct": false,
+        "timeTaken": 2
+      },
+      {
+        "questionId": "mqwur0qsvhsw",
+        "selected": 1,
+        "correct": false,
+        "timeTaken": 1
+      }
+    ],
+    "lives": null,
+    "streak": 0,
+    "bestStreak": 2,
+    "status": "completed",
+    "updatedAt": "2026-07-05T13:12:17.338Z"
+  },
+  {
+    "id": "mr7thjmxddrn",
+    "createdAt": "2026-07-05T13:18:43.881Z",
+    "mode": "normal",
+    "difficulty": "easy",
+    "category": "Python Basics",
+    "userId": "mqwur0qn1wu0",
+    "questions": [
+      "mqwur0qq30le",
+      "mqwur0qqpqm8"
+    ],
+    "answers": [
+      {
+        "questionId": "mqwur0qq30le",
+        "selected": 0,
+        "correct": true,
+        "timeTaken": 5
+      },
+      {
+        "questionId": "mqwur0qqpqm8",
+        "selected": 1,
+        "correct": true,
+        "timeTaken": 1
+      }
+    ],
+    "lives": null,
+    "streak": 2,
+    "bestStreak": 2,
+    "status": "completed",
+    "updatedAt": "2026-07-05T13:18:51.849Z"
+  },
+  {
+    "id": "mr9pxaevwc0g",
+    "createdAt": "2026-07-06T21:14:32.311Z",
+    "mode": "normal",
+    "difficulty": "easy",
+    "category": "Python Basics",
+    "userId": "mr9puvr3isgf",
+    "questions": [
+      "mqwur0qqpqm8",
+      "mr7t60m3u6oo",
+      "mr7t60m4y5qc",
+      "mqwur0qq30le",
+      "mr7t60m181eo"
+    ],
+    "answers": [
+      {
+        "questionId": "mqwur0qqpqm8",
+        "selected": 1,
+        "correct": true,
+        "timeTaken": 6
+      },
+      {
+        "questionId": "mr7t60m3u6oo",
+        "selected": 0,
+        "correct": true,
+        "timeTaken": 6
+      },
+      {
+        "questionId": "mr7t60m4y5qc",
+        "selected": 0,
+        "correct": true,
+        "timeTaken": 6
+      },
+      {
+        "questionId": "mqwur0qq30le",
+        "selected": 3,
+        "correct": false,
+        "timeTaken": 6
+      },
+      {
+        "questionId": "mr7t60m181eo",
+        "selected": 0,
+        "correct": false,
+        "timeTaken": 5
+      }
+    ],
+    "lives": null,
+    "streak": 0,
+    "bestStreak": 3,
+    "status": "completed",
+    "updatedAt": "2026-07-06T21:15:19.906Z"
+  },
+  {
+    "id": "mr9pymgh8n84",
+    "createdAt": "2026-07-06T21:15:34.577Z",
+    "mode": "normal",
+    "difficulty": "easy",
+    "category": "Python Basics",
+    "userId": "mr9puvr3isgf",
+    "questions": [
+      "mr7t60m4y5qc",
+      "mqwur0qq30le",
+      "mr7t60m3u6oo",
+      "mr7t60m181eo",
+      "mqwur0qqpqm8"
+    ],
+    "answers": [
+      {
+        "questionId": "mr7t60m4y5qc",
+        "selected": -1,
+        "correct": false,
+        "timeTaken": 30
+      }
+    ],
+    "lives": null,
+    "streak": 0,
+    "bestStreak": 0,
+    "status": "active",
+    "updatedAt": "2026-07-06T21:16:04.642Z"
+  },
+  {
+    "id": "mr9pzaqu8qfy",
+    "createdAt": "2026-07-06T21:16:06.054Z",
+    "mode": "normal",
+    "difficulty": "medium",
+    "category": "Python Basics",
+    "userId": "mr9puvr3isgf",
+    "questions": [
+      "mr7t60m5eje8",
+      "mr7t60m6gaoi",
+      "mr7t60m7lzis"
+    ],
+    "answers": [
+      {
+        "questionId": "mr7t60m5eje8",
+        "selected": 0,
+        "correct": true,
+        "timeTaken": 7
+      },
+      {
+        "questionId": "mr7t60m6gaoi",
+        "selected": 0,
+        "correct": false,
+        "timeTaken": 4
+      },
+      {
+        "questionId": "mr7t60m7lzis",
+        "selected": 1,
+        "correct": false,
+        "timeTaken": 6
+      }
+    ],
+    "lives": null,
+    "streak": 0,
+    "bestStreak": 1,
+    "status": "completed",
+    "updatedAt": "2026-07-06T21:16:31.805Z"
+  }
+]

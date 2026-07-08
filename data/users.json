@@ -1,0 +1,24 @@
+[
+  {
+    "id": "mr8085wox08s",
+    "createdAt": "2026-07-05T16:27:23.496Z",
+    "name": "adam",
+    "email": "adam1@gmail.com",
+    "password": "$2b$10$oT2O9LxcUXh9BgImzigov.wwBKV7Ygbykx07iZPwCjHC4vKZBTUri",
+    "role": "admin",
+    "securityQuestion": "What is your favorite color?",
+    "securityAnswer": "$2b$10$BVWhALVDTPu/JnjfjdU46eE4.tQiiQm6oHsKxA7D8wUlFAdNapSCm",
+    "status": "active",
+    "updatedAt": "2026-07-05T16:27:40.321Z"
+  },
+  {
+    "id": "mr9puvr3isgf",
+    "createdAt": "2026-07-06T21:12:39.999Z",
+    "name": "laila",
+    "email": "lailaelberhichi@gmail.com",
+    "password": "$2b$10$0HC7NKW4hqWqQBcC1lBMX.eBKsWs9aOjACjo2ASyihJBBsk76BHbS",
+    "role": "user",
+    "securityQuestion": "What was the name of your first pet?",
+    "securityAnswer": "$2b$10$TNHrG3Gj6effSrPgfG1xOO0KCV7EVDkt.wmyREvc9KuiFvOhHzT76"
+  }
+]
