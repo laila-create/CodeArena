@@ -1,0 +1,8 @@
+{
+  "normalTimer": 30,
+  "challengeTimer": 15,
+  "challengeLives": 3,
+  "challengeStreakThreshold": 3,
+  "questionsPerQuiz": 10,
+  "showExplanations": true
+}
