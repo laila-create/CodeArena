@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CodeArena — Sign In</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0b0e18;
+  --surface:#13172a;
+  --surface2:#1a1f35;
+  --border:rgba(255,255,255,0.07);
+  --text:#e8ecf6;
+  --text2:#7b849e;
+  --text3:#3d4460;
+  --accent:#5b7cfd;
+  --accent-h:#4a6be8;
+  --accent-s:rgba(91,124,253,0.12);
+  --red:#ef4444;
+  --red-s:rgba(239,68,68,0.1);
+  --green:#22c55e;
+  --green-s:rgba(34,197,94,0.1);
+  --radius:12px;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+/* background glow */
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 20% 30%,rgba(91,124,253,0.08) 0%,transparent 70%),radial-gradient(ellipse 40% 50% at 80% 80%,rgba(91,124,253,0.05) 0%,transparent 70%);pointer-events:none}
+
+.card{
+  width:100%;max-width:440px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:40px 36px;
+  position:relative;
+  box-shadow:0 24px 80px rgba(0,0,0,0.5);
+}
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:32px}
+.brand-icon{font-size:1.5rem;line-height:1}
+.brand-name{font-size:1.25rem;font-weight:800;letter-spacing:-0.4px}
+.brand-name span{color:var(--accent)}
+
+/* Tab bar */
+.tabs{display:flex;background:var(--surface2);border-radius:10px;padding:4px;gap:4px;margin-bottom:28px}
+.tab{flex:1;padding:9px;border:none;border-radius:7px;font-size:0.85rem;font-weight:600;cursor:pointer;background:transparent;color:var(--text2);transition:all .2s;font-family:'Inter',sans-serif}
+.tab.active{background:var(--accent);color:#fff}
+
+.form-title{font-size:1.25rem;font-weight:800;letter-spacing:-0.3px;margin-bottom:4px}
+.form-sub{font-size:0.85rem;color:var(--text2);margin-bottom:24px}
+
+.form-group{margin-bottom:16px}
+label{display:block;font-size:0.78rem;font-weight:600;color:var(--text2);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+input,select{
+  width:100%;padding:11px 14px;
+  background:var(--surface2);border:1.5px solid var(--border);
+  border-radius:9px;color:var(--text);font-size:0.9rem;
+  font-family:'Inter',sans-serif;outline:none;
+  transition:border-color .2s;
+}
+input:focus,select:focus{border-color:var(--accent)}
+input::placeholder{color:var(--text3)}
+select{appearance:none;cursor:pointer}
+select option{background:var(--surface)}
+
+.btn{
+  width:100%;padding:12px;border:none;border-radius:9px;
+  font-size:0.95rem;font-weight:700;cursor:pointer;
+  font-family:'Inter',sans-serif;transition:all .2s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-h);transform:translateY(-1px)}
+.btn-primary:active{transform:none}
+.btn-ghost{background:transparent;color:var(--accent);border:1.5px solid var(--border);font-size:0.85rem;padding:10px;margin-top:8px}
+.btn-ghost:hover{border-color:var(--accent);background:var(--accent-s)}
+
+.alert{padding:11px 14px;border-radius:8px;font-size:0.84rem;font-weight:500;margin-bottom:16px;display:none}
+.alert.show{display:block}
+.alert-error{background:var(--red-s);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+.alert-success{background:var(--green-s);color:var(--green);border:1px solid rgba(34,197,94,.2)}
+
+.divider{text-align:center;color:var(--text3);font-size:0.78rem;margin:16px 0;position:relative}
+.divider::before,.divider::after{content:'';position:absolute;top:50%;width:42%;height:1px;background:var(--border)}
+.divider::before{left:0}.divider::after{right:0}
+
+.forgot-link{display:block;text-align:right;font-size:0.8rem;color:var(--accent);cursor:pointer;margin-top:-8px;margin-bottom:16px;text-decoration:none}
+.forgot-link:hover{text-decoration:underline}
+
+.step-indicator{display:flex;align-items:center;gap:8px;margin-bottom:20px}
+.step-dot{width:28px;height:28px;border-radius:50%;background:var(--surface2);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:700;color:var(--text2);transition:.3s}
+.step-dot.active{border-color:var(--accent);color:var(--accent)}
+.step-dot.done{background:var(--accent);border-color:var(--accent);color:#fff}
+.step-line{flex:1;height:2px;background:var(--border);border-radius:2px;transition:.3s}
+.step-line.done{background:var(--accent)}
+
+.demo-box{margin-top:20px;padding:12px 14px;background:var(--surface2);border-radius:9px;font-size:0.8rem;color:var(--text2);text-align:center}
+.demo-box code{font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:var(--text);background:var(--surface);padding:2px 6px;border-radius:4px}
+.demo-tag{display:inline-block;background:var(--accent-s);color:var(--accent);font-size:0.68rem;font-weight:700;padding:2px 7px;border-radius:4px;margin-right:6px;text-transform:uppercase}
+
+/* screen switching */
+.screen{display:none}.screen.active{display:block}
+
+@media(max-width:480px){.card{padding:28px 20px;border-radius:16px}}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="brand">
+    <div class="brand-icon">⚡</div>
+    <div class="brand-name">Code<span>Arena</span></div>
+  </div>
+
+  <!-- ═══════════ LOGIN SCREEN ═══════════ -->
+  <div class="screen active" id="screen-login">
+    <div class="tabs">
+      <button class="tab active" onclick="showLogin()">Login</button>
+      <button class="tab" onclick="showSignup()">Sign Up</button>
+    </div>
+    <h2 class="form-title">Welcome back</h2>
+    <p class="form-sub">Sign in to your account</p>
+    <div class="alert alert-error" id="login-err"></div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="login-email" placeholder="you@example.com" autocomplete="email">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <a class="forgot-link" onclick="showForgot()">Forgot password?</a>
+    <button class="btn btn-primary" onclick="doLogin()">Sign In →</button>
+    
+  </div>
+
+  <!-- ═══════════ SIGNUP SCREEN ═══════════ -->
+  <div class="screen" id="screen-signup">
+    <div class="tabs">
+      <button class="tab" onclick="showLogin()">Login</button>
+      <button class="tab active" onclick="showSignup()">Sign Up</button>
+    </div>
+    <h2 class="form-title">Create account</h2>
+    <p class="form-sub">Start your coding journey today</p>
+    <div class="alert alert-error" id="signup-err"></div>
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" id="su-name" placeholder="Your name">
+    </div>
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" id="su-email" placeholder="you@example.com">
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="su-pass" placeholder="Min. 6 characters">
+    </div>
+    <div class="form-group">
+      <label>Confirm Password</label>
+      <input type="password" id="su-confirm" placeholder="Repeat password">
+    </div>
+
+    <div class="divider">Security Question (for password recovery)</div>
+
+    <div class="form-group">
+      <label>Choose a question</label>
+      <select id="su-question">
+        <option value="">— Select a question —</option>
+        <option>What is your favorite color?</option>
+        <option>What was the color of your first car?</option>
+        <option>What is your mother's maiden name?</option>
+        <option>What was the name of your first pet?</option>
+        <option>What city were you born in?</option>
+        <option>What is your favorite food?</option>
+        <option>What was the name of your childhood best friend?</option>
+        <option>What is your favorite sports team?</option>
+        <option>What was your childhood nickname?</option>
+        <option>What is the name of the street you grew up on?</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Your Answer</label>
+      <input type="text" id="su-answer" placeholder="Answer (case-insensitive)">
+    </div>
+    <button class="btn btn-primary" onclick="doSignup()">Create Account →</button>
+  </div>
+
+  <!-- ═══════════ FORGOT SCREEN ═══════════ -->
+  <div class="screen" id="screen-forgot">
+    <h2 class="form-title">Reset Password</h2>
+    <p class="form-sub">We'll ask your security question</p>
+
+    <div class="step-indicator">
+      <div class="step-dot active" id="fdot1">1</div>
+      <div class="step-line" id="fline1"></div>
+      <div class="step-dot" id="fdot2">2</div>
+      <div class="step-line" id="fline2"></div>
+      <div class="step-dot" id="fdot3">3</div>
+    </div>
+
+    <div class="alert alert-error" id="forgot-err"></div>
+    <div class="alert alert-success" id="forgot-ok"></div>
+
+    <!-- Step 1: email -->
+    <div id="fstep1">
+      <div class="form-group">
+        <label>Your Email</label>
+        <input type="email" id="f-email" placeholder="you@example.com">
+      </div>
+      <button class="btn btn-primary" onclick="forgotStep1()">Next →</button>
+    </div>
+
+    <!-- Step 2: answer -->
+    <div id="fstep2" style="display:none">
+      <div class="form-group">
+        <label id="f-question-label">Security Question</label>
+        <input type="text" id="f-answer" placeholder="Your answer">
+      </div>
+      <button class="btn btn-primary" onclick="forgotStep2()">Verify →</button>
+    </div>
+
+    <!-- Step 3: new password -->
+    <div id="fstep3" style="display:none">
+      <div class="form-group">
+        <label>New Password</label>
+        <input type="password" id="f-newpass" placeholder="Min. 6 characters">
+      </div>
+      <div class="form-group">
+        <label>Confirm Password</label>
+        <input type="password" id="f-confirmpass" placeholder="Repeat password">
+      </div>
+      <button class="btn btn-primary" onclick="forgotStep3()">Reset Password</button>
+    </div>
+
+    <button class="btn btn-ghost" onclick="showLogin()">← Back to Login</button>
+  </div>
+
+</div><!-- /card -->
+
+<script>
+// ── Screen helpers ──────────────────────────────────────
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+}
+function showLogin()  { showScreen('login'); }
+function showSignup() { showScreen('signup'); }
+function showForgot() { showScreen('forgot'); resetForgot(); }
+
+function setAlert(id, msg, type='error') {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.className = 'alert alert-' + type + (msg ? ' show' : '');
+}
+
+// ── Login ───────────────────────────────────────────────
+async function doLogin() {
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('login-pass').value;
+  if (!email || !password) return setAlert('login-err','Please fill in all fields.');
+  const r = await fetch('/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password})});
+  const d = await r.json();
+  if (!d.ok) return setAlert('login-err', d.error);
+  window.location.href = '/';
+}
+document.getElementById('login-pass').addEventListener('keydown', e => e.key === 'Enter' && doLogin());
+
+// ── Signup ──────────────────────────────────────────────
+async function doSignup() {
+  const name = document.getElementById('su-name').value.trim();
+  const email = document.getElementById('su-email').value.trim();
+  const password = document.getElementById('su-pass').value;
+  const confirm = document.getElementById('su-confirm').value;
+  const securityQuestion = document.getElementById('su-question').value;
+  const securityAnswer = document.getElementById('su-answer').value.trim();
+  if (!securityQuestion) return setAlert('signup-err','Please select a security question.');
+  if (!securityAnswer) return setAlert('signup-err','Please provide your security answer.');
+  const r = await fetch('/auth/signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,email,password,confirm,securityQuestion,securityAnswer})});
+  const d = await r.json();
+  if (!d.ok) return setAlert('signup-err', d.error);
+  window.location.href = '/';
+}
+
+// ── Forgot password (3 steps) ───────────────────────────
+let forgotEmail = '';
+function resetForgot() {
+  forgotEmail = '';
+  setAlert('forgot-err','');
+  setAlert('forgot-ok','');
+  document.getElementById('fstep1').style.display = '';
+  document.getElementById('fstep2').style.display = 'none';
+  document.getElementById('fstep3').style.display = 'none';
+  ['fdot1','fdot2','fdot3'].forEach((id,i) => {
+    const el = document.getElementById(id);
+    el.className = 'step-dot' + (i===0?' active':'');
+  });
+  ['fline1','fline2'].forEach(id => document.getElementById(id).className='step-line');
+}
+async function forgotStep1() {
+  const email = document.getElementById('f-email').value.trim();
+  if (!email) return setAlert('forgot-err','Enter your email address.');
+  const r = await fetch('/auth/forgot/question',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email})});
+  const d = await r.json();
+  if (!d.ok) return setAlert('forgot-err', d.error);
+  forgotEmail = email;
+  document.getElementById('f-question-label').textContent = d.question;
+  document.getElementById('fstep1').style.display = 'none';
+  document.getElementById('fstep2').style.display = '';
+  setAlert('forgot-err','');
+  // Step indicator
+  document.getElementById('fdot1').className = 'step-dot done';
+  document.getElementById('fline1').className = 'step-line done';
+  document.getElementById('fdot2').className = 'step-dot active';
+}
+async function forgotStep2() {
+  const answer = document.getElementById('f-answer').value.trim();
+  if (!answer) return setAlert('forgot-err','Enter your answer.');
+  // Verify by trying to get the question again (we just move to step 3; actual verify happens on reset)
+  // We keep answer in local var and verify on final submit
+  document.getElementById('fstep2').style.display = 'none';
+  document.getElementById('fstep3').style.display = '';
+  setAlert('forgot-err','');
+  document.getElementById('fdot2').className = 'step-dot done';
+  document.getElementById('fline2').className = 'step-line done';
+  document.getElementById('fdot3').className = 'step-dot active';
+}
+async function forgotStep3() {
+  const answer = document.getElementById('f-answer').value.trim();
+  const newPassword = document.getElementById('f-newpass').value;
+  const confirmPassword = document.getElementById('f-confirmpass').value;
+  const r = await fetch('/auth/forgot/reset',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:forgotEmail,answer,newPassword,confirmPassword})});
+  const d = await r.json();
+  if (!d.ok) {
+    // Go back to step 2 if answer wrong
+    document.getElementById('fstep3').style.display = 'none';
+    document.getElementById('fstep2').style.display = '';
+    document.getElementById('fdot3').className = 'step-dot';
+    document.getElementById('fline2').className = 'step-line';
+    document.getElementById('fdot2').className = 'step-dot active';
+    return setAlert('forgot-err', d.error);
+  }
+  setAlert('forgot-ok','Password reset! Redirecting to login…','success');
+  document.getElementById('fstep3').style.display = 'none';
+  setTimeout(showLogin, 2000);
+}
+</script>
+</body>
+</html>
