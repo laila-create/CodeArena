@@ -619,10 +619,10 @@ tbody tr:hover td{background:var(--bg3)}
             <div class="md-hero-name" id="mdHeroName">My Dashboard</div>
             <div class="md-hero-sub">Your progress, badges, and quiz history, at a glance.</div>
             <div class="md-stat-row">
-              <div class="md-stat"><div class="md-stat-n" id="mdTotalQuizzes">—</div><div class="md-stat-l">Quiz joués</div></div>
-              <div class="md-stat"><div class="md-stat-n" id="mdBestScore">—</div><div class="md-stat-l">Meilleur score</div></div>
-              <div class="md-stat"><div class="md-stat-n" id="mdBestStreak">—</div><div class="md-stat-l">Meilleur streak 🔥</div></div>
-              <div class="md-stat"><div class="md-stat-n" id="mdBadgeCount">—</div><div class="md-stat-l">Badges débloqués</div></div>
+              <div class="md-stat"><div class="md-stat-n" id="mdTotalQuizzes">—</div><div class="md-stat-l">Quizzes played</div></div>
+              <div class="md-stat"><div class="md-stat-n" id="mdBestScore">—</div><div class="md-stat-l">Best score</div></div>
+              <div class="md-stat"><div class="md-stat-n" id="mdBestStreak">—</div><div class="md-stat-l">Best streak 🔥</div></div>
+              <div class="md-stat"><div class="md-stat-n" id="mdBadgeCount">—</div><div class="md-stat-l">Badges unlocked</div></div>
             </div>
           </div>
         </div>
@@ -1164,7 +1164,7 @@ async function loadMyDash() {
   const [stats, lb] = await Promise.all([api('/api/me/stats'), api('/api/leaderboard')]);
   if (!stats.ok) return;
 
-  document.getElementById('mdHeroName').textContent = `Salut ${currentUser.name} 👋`;
+  document.getElementById('mdHeroName').textContent = `Hi ${currentUser.name} 👋`;
   document.getElementById('mdTotalQuizzes').textContent = stats.totalQuizzes;
   document.getElementById('mdBestScore').textContent = stats.bestScore + '%';
   document.getElementById('mdBestStreak').textContent = stats.bestStreak;
@@ -1193,7 +1193,7 @@ async function loadMyDash() {
         <div class="cbr-track"><div class="cbr-fill" style="width:${(c.count / maxCount) * 100}%"></div></div>
         <div class="cbr-val">${c.avg}% avg</div>
       </div>`).join('')
-    : '<div class="empty-hint">Aucun quiz terminé pour l\'instant. Lance ton premier quiz !</div>';
+    : '<div class="empty-hint">No quizzes completed yet. Start your first quiz!</div>';
 
   // Timeline
   document.getElementById('mdTimeline').innerHTML = stats.recent.length
@@ -1204,13 +1204,13 @@ async function loadMyDash() {
         <div class="tl-item">
           <span class="tl-dot ${dotClass}"></span>
           <div class="tl-body">
-            <div class="tl-title">${s.mode === 'challenge' ? '🔥 Challenge' : '📚 Normal'} · ${escHtml(s.category === 'all' ? 'Mixte' : s.category)}</div>
+            <div class="tl-title">${s.mode === 'challenge' ? '🔥 Challenge' : '📚 Normal'} · ${escHtml(s.category === 'all' ? 'Mixed' : s.category)}</div>
             <div class="tl-sub">${date} · ${s.correct}/${s.total} correctes${s.status === 'gameover' ? ' · 💀 Game Over' : ''}</div>
           </div>
           <div class="tl-score">${s.score}%</div>
         </div>`;
       }).join('')
-    : '<div class="empty-hint">Aucun historique pour l\'instant.</div>';
+    : '<div class="empty-hint">No history yet.</div>';
 
   // Leaderboard
   document.getElementById('mdLeaderboard').innerHTML = (lb && lb.length)
@@ -1220,7 +1220,7 @@ async function loadMyDash() {
         <span class="lb-name">${escHtml(row.name)}${row.mode === 'challenge' ? ' 🔥' : ''}</span>
         <span class="lb-score">${row.score}%</span>
       </div>`).join('')
-    : '<div class="empty-hint">Le classement se remplira après les premiers quiz.</div>';
+    : '<div class="empty-hint">The leaderboard will fill up once quizzes are played.</div>';
 }
 
 /* ════════════════════════════════════════
