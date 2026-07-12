@@ -224,12 +224,12 @@ router.get('/me/stats', auth, (req, res) => {
   }));
 
   const badges = [
-    { id: 'first', icon: '🥉', name: 'Premiers Pas', desc: 'Terminer un premier quiz', unlocked: totalQuizzes >= 1 },
-    { id: 'ten', icon: '🎯', name: 'Assidu', desc: 'Terminer 10 quiz', unlocked: totalQuizzes >= 10 },
-    { id: 'perfect', icon: '💯', name: 'Perfectionniste', desc: 'Obtenir 100% à un quiz', unlocked: perfectCount >= 1 },
-    { id: 'streak', icon: '🔥', name: 'En Feu', desc: 'Atteindre un streak de 5+', unlocked: bestStreak >= 5 },
-    { id: 'survivor', icon: '🛡️', name: 'Survivant', desc: 'Gagner un mode Challenge', unlocked: challengeWins >= 1 },
-    { id: 'master', icon: '👑', name: 'Maître de l\'Arène', desc: 'Moyenne de 80%+ sur 3 quiz min.', unlocked: avgScore >= 80 && totalQuizzes >= 3 }
+    { id: 'first', icon: '🥉', name: 'First Steps', desc: 'Complete your first quiz', unlocked: totalQuizzes >= 1 },
+    { id: 'ten', icon: '🎯', name: 'Dedicated', desc: 'Complete 10 quizzes', unlocked: totalQuizzes >= 10 },
+    { id: 'perfect', icon: '💯', name: 'Perfectionist', desc: 'Score 100% on a quiz', unlocked: perfectCount >= 1 },
+    { id: 'streak', icon: '🔥', name: 'On Fire', desc: 'Reach a streak of 5+', unlocked: bestStreak >= 5 },
+    { id: 'survivor', icon: '🛡️', name: 'Survivor', desc: 'Win a Challenge mode round', unlocked: challengeWins >= 1 },
+    { id: 'master', icon: '👑', name: 'Arena Master', desc: '80%+ average across 3+ quizzes', unlocked: avgScore >= 80 && totalQuizzes >= 3 }
   ];
 
   res.json({ ok: true, totalQuizzes, avgScore, bestScore, bestStreak, perfectCount, categoryBreakdown, recent, badges });
