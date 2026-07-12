@@ -23,7 +23,7 @@ app.use('/api', require('./routes/api'));
 
 // SPA catch-all: any other route either serves the app shell (if logged
 // in) or bounces to the login page (if not).
-app.get('*', (req, res) => {
+app.get('/*', (req, res) => {
   const token = req.cookies?.token;
   if (!token) return res.redirect('/auth/login');
   res.sendFile(path.join(__dirname, 'public', 'app.html'));
