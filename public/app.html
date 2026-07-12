@@ -621,7 +621,7 @@ tbody tr:hover td{background:var(--bg3)}
             <div class="md-stat-row">
               <div class="md-stat"><div class="md-stat-n" id="mdTotalQuizzes">—</div><div class="md-stat-l">Quizzes played</div></div>
               <div class="md-stat"><div class="md-stat-n" id="mdBestScore">—</div><div class="md-stat-l">Best score</div></div>
-              <div class="md-stat"><div class="md-stat-n" id="mdBestStreak">—</div><div class="md-stat-l">Best streak 🔥</div></div>
+              <div class="md-stat"><div class="md-stat-n" id="mdBestStreak">—</div><div class="md-stat-l">Best streak </div></div>
               <div class="md-stat"><div class="md-stat-n" id="mdBadgeCount">—</div><div class="md-stat-l">Badges unlocked</div></div>
             </div>
           </div>
@@ -826,10 +826,10 @@ let selectedCat = 'all';
     nav.innerHTML += `
       <div class="sb-sep" style="margin:8px 0"></div>
       <div style="padding:4px 12px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--text3)">Admin</div>
-      <button class="sb-item" data-page="admin" onclick="nav('admin')"><span class="sb-icon">📊</span> Dashboard</button>
-      <button class="sb-item" data-page="questions" onclick="nav('questions')"><span class="sb-icon">❓</span> Questions</button>
-      <button class="sb-item" data-page="users" onclick="nav('users')"><span class="sb-icon">👥</span> Users</button>
-      <button class="sb-item" data-page="settings" onclick="nav('settings')"><span class="sb-icon">⚙️</span> Settings</button>
+      <button class="sb-item" data-page="admin" onclick="nav('admin')"><span class="sb-icon"></span> Dashboard</button>
+      <button class="sb-item" data-page="questions" onclick="nav('questions')"><span class="sb-icon"></span> Questions</button>
+      <button class="sb-item" data-page="users" onclick="nav('users')"><span class="sb-icon"></span> Users</button>
+      <button class="sb-item" data-page="settings" onclick="nav('settings')"><span class="sb-icon"></span> Settings</button>
     `;
   }
 
@@ -901,7 +901,7 @@ function closeSidebar() {
 function setTheme(t) {
   document.documentElement.setAttribute('data-theme', t);
   localStorage.setItem('ca_theme', t);
-  const icon = t === 'dark' ? '☀️' : '🌙';
+  const icon = t === 'dark' ? '' : '';
   const label = t === 'dark' ? 'Light Mode' : 'Dark Mode';
   document.getElementById('themeIcon').textContent = icon;
   document.getElementById('themeLabel').textContent = label;
@@ -976,7 +976,7 @@ function renderQuestion() {
 
   // Mode badge
   const mb = document.getElementById('modeBadge');
-  mb.textContent = session.mode === 'challenge' ? '🔥 Challenge' : '📚 Normal';
+  mb.textContent = session.mode === 'challenge' ? ' Challenge' : ' Normal';
   mb.className = 'badge badge-' + session.mode;
 
   // Lives & streak (challenge)
@@ -988,7 +988,7 @@ function renderQuestion() {
     livesRow.innerHTML = Array.from({length: settings.challengeLives}, (_,i) =>
       `<span class="life ${i < session.lives ? '' : 'off'}">♥</span>`
     ).join('');
-    streakBadge.textContent = '🔥 ' + session.streak;
+    streakBadge.textContent = ' ' + session.streak;
   } else {
     livesRow.style.display = 'none';
     streakBadge.style.display = 'none';
@@ -1071,7 +1071,7 @@ async function submitAnswer(selected, qOverride) {
   if (r.gameOver) {
     document.getElementById('quizContent').innerHTML = `
       <div class="gameover">
-        <div class="go-icon">💀</div>
+        <div class="go-icon"></div>
         <div class="go-title">Game Over!</div>
         <div class="go-sub">You ran out of lives. Better luck next time!</div>
         <div class="go-actions">
@@ -1086,7 +1086,7 @@ async function submitAnswer(selected, qOverride) {
   if (session.mode === 'normal' && r.explanation) {
     const fb = document.createElement('div');
     fb.className = `feedback ${r.correct ? 'fb-correct' : 'fb-wrong'}`;
-    fb.innerHTML = `<div class="fb-icon">${r.correct ? '✅' : '❌'}</div>
+    fb.innerHTML = `<div class="fb-icon">${r.correct ? '' : ''}</div>
       <div><div class="fb-result">${r.correct ? 'Correct!' : 'Incorrect'}</div>
       <div class="fb-exp">${escHtml(r.explanation)}</div></div>`;
     document.getElementById('quizContent').querySelector('.qcard').appendChild(fb);
@@ -1111,13 +1111,13 @@ async function loadResults(sessionId) {
 
   const { correct, total, score, avgTime, review, session: s } = r;
   let badge, badgeClass;
-  if (score >= 90) { badge = '🏆 Excellent'; badgeClass = 'badge-gold'; }
-  else if (score >= 70) { badge = '⭐ Good'; badgeClass = 'badge-silver'; }
-  else if (score >= 50) { badge = '📚 Keep Practicing'; badgeClass = 'badge-bronze'; }
-  else { badge = '💪 Try Again'; badgeClass = 'badge-miss'; }
+  if (score >= 90) { badge = ' Excellent'; badgeClass = 'badge-gold'; }
+  else if (score >= 70) { badge = ' Good'; badgeClass = 'badge-silver'; }
+  else if (score >= 50) { badge = ' Keep Practicing'; badgeClass = 'badge-bronze'; }
+  else { badge = ' Try Again'; badgeClass = 'badge-miss'; }
 
   const extraStats = s.mode === 'challenge' ? `
-    <div class="stat-card"><div class="stat-v sv-orange">🔥 ${s.bestStreak}</div><div class="stat-l">Best Streak</div></div>
+    <div class="stat-card"><div class="stat-v sv-orange"> ${s.bestStreak}</div><div class="stat-l">Best Streak</div></div>
     <div class="stat-card"><div class="stat-v">♥ ${Math.max(0, s.lives)}</div><div class="stat-l">Lives Left</div></div>
   ` : '';
 
@@ -1136,7 +1136,7 @@ async function loadResults(sessionId) {
       <div class="rh-left">
         <div class="big-score">${score}<small>%</small></div>
         <span class="score-badge ${badgeClass}">${badge}</span>
-        ${s.mode === 'challenge' ? `<span class="ch-result ${s.status === 'gameover' ? 'ch-fail' : 'ch-win'}">${s.status === 'gameover' ? '💀 Game Over' : '🔥 Survived!'}</span>` : ''}
+        ${s.mode === 'challenge' ? `<span class="ch-result ${s.status === 'gameover' ? 'ch-fail' : 'ch-win'}">${s.status === 'gameover' ? ' Game Over' : ' Survived!'}</span>` : ''}
         <div class="rh-actions">
           <button class="btn btn-primary" onclick="startQuiz()">Play Again</button>
           <button class="btn btn-outline" onclick="nav('home')">Home</button>
@@ -1164,7 +1164,7 @@ async function loadMyDash() {
   const [stats, lb] = await Promise.all([api('/api/me/stats'), api('/api/leaderboard')]);
   if (!stats.ok) return;
 
-  document.getElementById('mdHeroName').textContent = `Hi ${currentUser.name} 👋`;
+  document.getElementById('mdHeroName').textContent = `Hi ${currentUser.name} `;
   document.getElementById('mdTotalQuizzes').textContent = stats.totalQuizzes;
   document.getElementById('mdBestScore').textContent = stats.bestScore + '%';
   document.getElementById('mdBestStreak').textContent = stats.bestStreak;
@@ -1204,8 +1204,8 @@ async function loadMyDash() {
         <div class="tl-item">
           <span class="tl-dot ${dotClass}"></span>
           <div class="tl-body">
-            <div class="tl-title">${s.mode === 'challenge' ? '🔥 Challenge' : '📚 Normal'} · ${escHtml(s.category === 'all' ? 'Mixed' : s.category)}</div>
-            <div class="tl-sub">${date} · ${s.correct}/${s.total} correctes${s.status === 'gameover' ? ' · 💀 Game Over' : ''}</div>
+            <div class="tl-title">${s.mode === 'challenge' ? ' Challenge' : ' Normal'} · ${escHtml(s.category === 'all' ? 'Mixed' : s.category)}</div>
+            <div class="tl-sub">${date} · ${s.correct}/${s.total} correctes${s.status === 'gameover' ? ' ·  Game Over' : ''}</div>
           </div>
           <div class="tl-score">${s.score}%</div>
         </div>`;
@@ -1217,7 +1217,7 @@ async function loadMyDash() {
     ? lb.map((row, i) => `
       <div class="lb-row ${row.userId === currentUser.id ? 'lb-me' : ''}">
         <span class="lb-rank ${i < 3 ? 'lb-' + (i + 1) : ''}">${i + 1}</span>
-        <span class="lb-name">${escHtml(row.name)}${row.mode === 'challenge' ? ' 🔥' : ''}</span>
+        <span class="lb-name">${escHtml(row.name)}${row.mode === 'challenge' ? ' ' : ''}</span>
         <span class="lb-score">${row.score}%</span>
       </div>`).join('')
     : '<div class="empty-hint">The leaderboard will fill up once quizzes are played.</div>';
@@ -1229,10 +1229,10 @@ async function loadMyDash() {
 async function loadAdminDash() {
   const d = await api('/api/stats');
   document.getElementById('adminCards').innerHTML = [
-    ['❓', d.questions, 'Questions'],
-    ['👥', d.users, 'Users'],
-    ['🎮', d.sessions, 'Sessions'],
-    ['📈', d.avgScore + '%', 'Avg. Score']
+    ['', d.questions, 'Questions'],
+    ['', d.users, 'Users'],
+    ['', d.sessions, 'Sessions'],
+    ['', d.avgScore + '%', 'Avg. Score']
   ].map(([icon, val, lbl]) => `
     <div class="dash-card"><div class="dc-icon">${icon}</div><div class="dc-val">${val}</div><div class="dc-lbl">${lbl}</div></div>
   `).join('');
@@ -1378,10 +1378,10 @@ function renderUserStats() {
   }).length;
 
   document.getElementById('userStatsCards').innerHTML = [
-    ['👥', total, 'Total Users'],
-    ['🛡️', admins, 'Total Admins'],
-    ['🙋', members, 'Total Members'],
-    ['🆕', newThisMonth, 'New This Month']
+    ['', total, 'Total Users'],
+    ['', admins, 'Total Admins'],
+    ['', members, 'Total Members'],
+    ['', newThisMonth, 'New This Month']
   ].map(([icon, val, lbl]) => `
     <div class="dash-card"><div class="dc-icon">${icon}</div><div class="dc-val">${val}</div><div class="dc-lbl">${lbl}</div></div>
   `).join('');
