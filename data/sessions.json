@@ -468,5 +468,131 @@
     "bestStreak": 1,
     "status": "completed",
     "updatedAt": "2026-07-06T21:16:31.805Z"
+  },
+  {
+    "id": "mrifw58tbuj8",
+    "createdAt": "2026-07-12T23:43:38.381Z",
+    "mode": "challenge",
+    "difficulty": "medium",
+    "category": "Data Structures",
+    "userId": "mrifvsj27hy3",
+    "questions": [
+      "mr7t60mc9ww5",
+      "mqwur0qrd9lm",
+      "mqwur0qrbejc",
+      "mr7t60menjon",
+      "mr7t60mfzgw7"
+    ],
+    "answers": [
+      {
+        "questionId": "mr7t60mc9ww5",
+        "selected": 0,
+        "correct": false,
+        "timeTaken": 1
+      },
+      {
+        "questionId": "mqwur0qrd9lm",
+        "selected": 2,
+        "correct": false,
+        "timeTaken": 1
+      },
+      {
+        "questionId": "mqwur0qrbejc",
+        "selected": 3,
+        "correct": false,
+        "timeTaken": 1
+      }
+    ],
+    "lives": 0,
+    "streak": 0,
+    "bestStreak": 0,
+    "status": "gameover",
+    "updatedAt": "2026-07-12T23:43:45.247Z"
+  },
+  {
+    "id": "mrifwbukdcti",
+    "createdAt": "2026-07-12T23:43:46.941Z",
+    "mode": "challenge",
+    "difficulty": "medium",
+    "category": "Data Structures",
+    "userId": "mrifvsj27hy3",
+    "questions": [
+      "mr7t60menjon",
+      "mr7t60mfzgw7",
+      "mr7t60mc9ww5",
+      "mqwur0qrd9lm",
+      "mqwur0qrbejc"
+    ],
+    "answers": [
+      {
+        "questionId": "mr7t60menjon",
+        "selected": 1,
+        "correct": true,
+        "timeTaken": 1
+      },
+      {
+        "questionId": "mr7t60mfzgw7",
+        "selected": 1,
+        "correct": false,
+        "timeTaken": 1
+      },
+      {
+        "questionId": "mr7t60mc9ww5",
+        "selected": 1,
+        "correct": true,
+        "timeTaken": 1
+      },
+      {
+        "questionId": "mqwur0qrd9lm",
+        "selected": 3,
+        "correct": false,
+        "timeTaken": 1
+      },
+      {
+        "questionId": "mqwur0qrbejc",
+        "selected": 3,
+        "correct": false,
+        "timeTaken": 1
+      }
+    ],
+    "lives": 0,
+    "streak": 0,
+    "bestStreak": 1,
+    "status": "gameover",
+    "updatedAt": "2026-07-12T23:43:58.725Z"
+  },
+  {
+    "id": "mrifwm8hakq9",
+    "createdAt": "2026-07-12T23:44:00.401Z",
+    "mode": "challenge",
+    "difficulty": "medium",
+    "category": "Data Structures",
+    "userId": "mrifvsj27hy3",
+    "questions": [
+      "mr7t60mc9ww5",
+      "mqwur0qrbejc",
+      "mqwur0qrd9lm",
+      "mr7t60menjon",
+      "mr7t60mfzgw7"
+    ],
+    "answers": [
+      {
+        "questionId": "mr7t60mc9ww5",
+        "selected": 0,
+        "correct": false,
+        "timeTaken": 0
+      },
+      {
+        "questionId": "mqwur0qrbejc",
+        "selected": -1,
+        "correct": false,
+        "timeTaken": 15
+      }
+    ],
+    "lives": 1,
+    "streak": 0,
+    "bestStreak": 0,
+    "status": "active",
+    "updatedAt": "2026-07-12T23:44:17.712Z"
   }
 ]

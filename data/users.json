@@ -20,5 +20,15 @@
     "role": "user",
     "securityQuestion": "What was the name of your first pet?",
     "securityAnswer": "$2b$10$TNHrG3Gj6effSrPgfG1xOO0KCV7EVDkt.wmyREvc9KuiFvOhHzT76"
+  },
+  {
+    "id": "mrifvsj27hy3",
+    "createdAt": "2026-07-12T23:43:21.902Z",
+    "name": "adam",
+    "email": "adamtq10@gmail.com",
+    "password": "$2b$10$YkaUqqGPakx6RWYWufp.n.YSW9wTjsULP6jdWmQAnY9ua09h5S8uK",
+    "role": "user",
+    "securityQuestion": "What is your favorite sports team?",
+    "securityAnswer": "$2b$10$8yCYYkT0F318oLFtl0z6x.TAyE2FT/fNYlSj6zXPVMHV/WsxI52C."
   }
 ]
